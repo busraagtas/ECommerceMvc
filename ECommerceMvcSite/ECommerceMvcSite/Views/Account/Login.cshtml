@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Giriş Yap";
+}
+
+<h2>Giriş Yap</h2>
+
+@using (Html.BeginForm())
+{
+    <label>Kullanıcı Adı:</label>
+    <input type="text" name="username" required />
+
+    <label>Şifre:</label>
+    <input type="password" name="password" required />
+
+    <button type="submit">Giriş Yap</button>
+}
+
+@if (ViewBag.Error != null)
+{
+    <p style="color:red;">@ViewBag.Error</p>
+}

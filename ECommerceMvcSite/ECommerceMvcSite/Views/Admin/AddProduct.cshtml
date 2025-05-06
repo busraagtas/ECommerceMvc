@@ -1,0 +1,24 @@
+﻿@model ECommerceMvcSite.Models.Product
+
+@{
+    ViewBag.Title = "Yeni Ürün Ekle";
+}
+
+<h2>Yeni Ürün Ekle</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(x => x.Name)
+    @Html.TextBoxFor(x => x.Name)
+
+    @Html.LabelFor(x => x.Price)
+    @Html.TextBoxFor(x => x.Price)
+
+    @Html.LabelFor(x => x.Description)
+    @Html.TextBoxFor(x => x.Description)
+
+    @Html.LabelFor(x => x.ImageUrl)
+    @Html.TextBoxFor(x => x.ImageUrl)
+
+    <button type="submit">Kaydet</button>
+}

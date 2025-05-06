@@ -1,0 +1,28 @@
+﻿@model List<ECommerceMvcSite.Models.Product>
+
+@{
+    ViewBag.Title = "Admin Panel";
+}
+
+<h2>Ürün Listesi</h2>
+<a href="@Url.Action("AddProduct", "Admin")">Yeni Ürün Ekle</a>
+
+<table class="table">
+    <tr>
+        <th>Ad</th>
+        <th>Fiyat</th>
+        <th>Açıklama</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Price</td>
+            <td>@item.Description</td>
+            <td>
+                <a href="@Url.Action("DeleteProduct", "Admin", new { id = item.Id })">Sil</a>
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title | E-Ticaret Sitesi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><a href="@Url.Action("Index", "Home")">Ebubekir Hoca CANDIR😍</a></h1>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="@Url.Action("Index", "Home")">Anasayfa</a></li>
+                    <li><a href="@Url.Action("Hakkimizda", "Home")">Hakkımızda</a></li>
+                    <li><a href="@Url.Action("Iletisim", "Home")">İletişim</a></li>
+                    <li><a href="@Url.Action("Index", "Products")">Ürünler</a></li>
+                    <li><a href="@Url.Action("Index", "Cart")">Sepetim</a></li> <!-- Sepetim menüsü -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year - E-Ticaret Sitesi | Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+</body>
+</html>
