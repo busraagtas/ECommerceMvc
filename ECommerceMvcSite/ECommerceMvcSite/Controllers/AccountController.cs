@@ -16,23 +16,21 @@ namespace ECommerceMvcSite.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(string username, string password)
+        public ActionResult Login(string email, string password)
         {
-            var user = db.Users.FirstOrDefault(x => x.Username == username && x.Password == password);
+            var user = db.Users.FirstOrDefault(x => x.Email == email && x.Password == password);
+
             if (user != null)
             {
                 Session["UserId"] = user.Id;
                 Session["Username"] = user.Username;
                 Session["IsAdmin"] = user.IsAdmin;
-                Session["UserEmail"] = user.Email; // ✅ Email oturuma eklendi
+                Session["UserEmail"] = user.Email;
 
-                if (user.IsAdmin)
-                    return RedirectToAction("AdminPanel", "Admin");
-                else
-                    return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.Error = "Kullanıcı adı veya şifre hatalı!";
+            ViewBag.Error = "Kullanıcı adı veya şifre hatalı";
             return View();
         }
 
@@ -79,33 +77,19 @@ namespace ECommerceMvcSite.Controllers
                            .ToList();
 
             return View(orders); // View'e Order listesi dönüyoruz
-
-           
         }
 
-        // Sipariş iptali
-        public ActionResult CancelOrder(int id)
+        // Onaylanan siparişlerimi görüntüle
+        public ActionResult ConfirmedOrders()
         {
-            var order = db.Orders.Include("Items.Product").FirstOrDefault(o => o.Id == id);
-            if (order == null || order.Items == null)
-                return HttpNotFound();
+            string email = Session["UserEmail"]?.ToString();
+            if (email == null) return RedirectToAction("Login");
 
-            var cancelledOrder = new CancelledOrder
-            {
-                UserEmail = order.UserEmail,
-                CancelDate = DateTime.Now,
-                Items = order.Items.Select(i => new OrderItem
-                {
-                    Product = i.Product,
-                    Quantity = i.Quantity
-                }).ToList()
-            };
+            var confirmedOrders = db.Orders
+                                     .Where(o => o.UserEmail == email && o.Status == "Onaylı") // Onaylı siparişler
+                                     .ToList();
 
-            db.CancelledOrders.Add(cancelledOrder);
-            db.Orders.Remove(order);
-            db.SaveChanges();
-
-            return RedirectToAction("CancelledOrders");
+            return View(confirmedOrders); // View'e Onaylı sipariş listesi dönüyoruz
         }
 
         // İptal edilen siparişleri görüntüle
@@ -119,6 +103,18 @@ namespace ECommerceMvcSite.Controllers
                                     .ToList();
 
             return View(cancelledOrders); // İptal edilen siparişleri CancelledOrders view'ına gönder
+        }
+
+        // Profil sayfası
+        public ActionResult Profile()
+        {
+            string email = Session["UserEmail"]?.ToString();
+            if (email == null) return RedirectToAction("Login");
+
+            var user = db.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null) return RedirectToAction("Login");
+
+            return View(user); // Profil bilgilerini Profile view'ına gönder
         }
     }
 }

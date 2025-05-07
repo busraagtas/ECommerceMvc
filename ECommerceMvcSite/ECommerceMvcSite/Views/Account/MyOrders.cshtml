@@ -1,5 +1,16 @@
 ﻿@model IEnumerable<ECommerceMvcSite.Models.Order>
 
+@{
+    ViewBag.Title = "Siparişlerim";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+
 <h2>Siparişlerim</h2>
 
 @if (Model.Any())
@@ -18,7 +29,7 @@
             @foreach (var order in Model)
             {
                 <tr>
-                    <td>@order.OrderDate</td>
+                    <td>@order.OrderDate.ToString("g")</td>
                     <td>
                         @foreach (var item in order.Items)
                         {
@@ -27,20 +38,19 @@
                     </td>
                     <td>@order.Items.Sum(i => i.Product.Price * i.Quantity) TL</td>
                     <td>
-
                         @if (order.IsCancelled)
                         {
-                            <span>İptal Edildi</span>
+                            <span class="text-danger">İptal Edildi</span>
                         }
                         else
                         {
-                            <span>Sipariş Onaylandı</span>
+                            <span class="text-success">Sipariş Onaylandı</span>
                         }
                     </td>
                     <td>
                         @if (!order.IsCancelled)
                         {
-                            @Html.ActionLink("İptal Et", "CancelOrder", new { id = order.Id }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("İptal Et", "CancelOrder", "Account", new { id = order.Id }, new { @class = "btn btn-danger btn-sm" })
                         }
                     </td>
                 </tr>

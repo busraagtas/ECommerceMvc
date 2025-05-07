@@ -9,6 +9,9 @@ namespace ECommerceMvcSite.Models
         public string UserEmail { get; set; }
         public DateTime CancelDate { get; set; }
 
+        // Siparişin durumu
+        public string Status { get; set; }  // Onaylı veya İptal
+
         public virtual List<OrderItem> Items { get; set; }
     }
 }

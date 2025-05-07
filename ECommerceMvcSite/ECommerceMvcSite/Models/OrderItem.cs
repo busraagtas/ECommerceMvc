@@ -1,12 +1,23 @@
-﻿using ECommerceMvcSite.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class OrderItem
+namespace ECommerceMvcSite.Models
 {
-    public int Id { get; set; }
+    public class OrderItem
+    {
+        public int Id { get; set; }
 
-    public int ProductId { get; set; } // ✅ BU SATIRI EKLE
+        [ForeignKey("Order")]
+        public int OrderId { get; set; }
 
-    public virtual Product Product { get; set; }
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
 
-    public int Quantity { get; set; }
+        public int Quantity { get; set; }
+
+        // Navigation Properties
+        public virtual Order Order { get; set; }
+
+        public virtual Product Product { get; set; }
+    }
 }

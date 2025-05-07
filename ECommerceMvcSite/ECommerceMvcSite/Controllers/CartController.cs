@@ -20,6 +20,13 @@ namespace ECommerceMvcSite.Controllers
             }
 
             var products = db.Products.Where(p => cart.Contains(p.Id)).ToList();
+
+            // Sipariş mesajı varsa ViewBag'e taşı
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"];
+            }
+
             return View(products);
         }
 
@@ -54,35 +61,40 @@ namespace ECommerceMvcSite.Controllers
         [HttpPost]
         public ActionResult Checkout()
         {
-            var cart = (List<int>)Session["Cart"];
-            string userEmail = Session["UserEmail"]?.ToString(); // Kullanıcı oturumu kontrolü
+            var cart = Session["Cart"] as List<int>;
+            var userEmail = User.Identity.Name; // Giriş yapan kullanıcının emaili
 
-            if (cart == null || !cart.Any() || userEmail == null)
+            if (cart == null || !cart.Any())
             {
+                TempData["Message"] = "Sepetiniz boş!";
                 return RedirectToAction("Index", "Cart");
             }
 
+            // Sepetteki ürünleri getir
             var products = db.Products.Where(p => cart.Contains(p.Id)).ToList();
 
-            var orderItems = products.Select(p => new OrderItem
-            {
-                ProductId = p.Id,
-                Quantity = 1
-            }).ToList();
-
+            // Sipariş oluştur
             var order = new Order
             {
                 UserEmail = userEmail,
                 OrderDate = DateTime.Now,
-                Items = orderItems
+                Items = products.Select(p => new OrderItem
+                {
+                    ProductId = p.Id,
+                    Quantity = 1 // Sabit 1 adet olarak kayıt edilir
+                }).ToList()
             };
 
             db.Orders.Add(order);
             db.SaveChanges();
 
-            Session["Cart"] = new List<int>();
+            // Sepeti temizle
+            Session["Cart"] = null;
 
-            return RedirectToAction("MyOrders", "Account");
+            // Sipariş alındı mesajı
+            TempData["Message"] = "Siparişiniz başarıyla alındı.";
+
+            return RedirectToAction("Index", "Cart");
         }
     }
 }

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ECommerceMvcSite.Models.Order>
+
+<h2>Onaylı Siparişler</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Sipariş ID</th>
+            <th>Tarih</th>
+            <th>Durum</th>
+            <th>Toplam Fiyat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.OrderDate</td>
+                <td>@order.Status</td>
+                <td>@order.Items.Sum(i => i.Quantity * i.Product.Price)</td>
+            </tr>
+        }
+    </tbody>
+</table>
