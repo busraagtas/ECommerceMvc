@@ -9,103 +9,107 @@ namespace ECommerceMvcSite.Controllers
     {
         private MyDbContext db = new MyDbContext();
 
-        // Login sayfası
+        // Yardımcı fonksiyon: Şifreyi Hash'le
+        private string HashPassword(string password)
+        {
+            using (var sha = System.Security.Cryptography.SHA256.Create())
+            {
+                var bytes = System.Text.Encoding.UTF8.GetBytes(password);
+                var hash = sha.ComputeHash(bytes);
+                return Convert.ToBase64String(hash);
+            }
+        }
+
+        // Giriş Sayfası (GET)
         public ActionResult Login()
         {
             return View();
         }
 
+        // Giriş Sayfası (POST)
         [HttpPost]
         public ActionResult Login(string email, string password)
         {
-            var user = db.Users.FirstOrDefault(x => x.Email == email && x.Password == password);
+            // Girilen şifreyi hash'le
+            string hashedPassword = HashPassword(password);
+
+            // Kullanıcıyı e-posta ve hashlenmiş şifreyle doğrula
+            var user = db.Users.FirstOrDefault(x => x.Email == email && x.Password == hashedPassword);
 
             if (user != null)
             {
+                // Kullanıcı bilgilerini oturumda sakla
                 Session["UserId"] = user.Id;
                 Session["Username"] = user.Username;
                 Session["IsAdmin"] = user.IsAdmin;
                 Session["UserEmail"] = user.Email;
+                Session["UserFirstName"] = user.FirstName;
+                Session["UserLastName"] = user.LastName;
 
+                // Anasayfaya yönlendir
                 return RedirectToAction("Index", "Home");
             }
 
+            // Hata mesajı göster
             ViewBag.Error = "Kullanıcı adı veya şifre hatalı";
             return View();
         }
 
-        // Kayıt sayfası
+        // Kayıt Sayfası (GET)
         public ActionResult Register()
         {
             return View();
         }
 
+        // Kayıt Sayfası (POST)
         [HttpPost]
         public ActionResult Register(User user)
         {
             if (ModelState.IsValid)
             {
+                // E-posta ve kullanıcı adının mevcut olup olmadığını kontrol et
+                if (db.Users.Any(u => u.Email == user.Email))
+                {
+                    ViewBag.Error = "Bu e-posta adresi ile daha önce kayıt olmuş bir kullanıcı var.";
+                    return View(user);
+                }
+
+                if (db.Users.Any(u => u.Username == user.Username))
+                {
+                    ViewBag.Error = "Bu kullanıcı adı ile daha önce kayıt olmuş bir kullanıcı var.";
+                    return View(user);
+                }
+
+                // Şifreyi hash'le
+                user.Password = HashPassword(user.Password);
+
+                // Yeni kullanıcıyı veritabanına ekle
                 db.Users.Add(user);
                 db.SaveChanges();
 
+                // Kullanıcı bilgilerini oturumda sakla
                 Session["UserId"] = user.Id;
                 Session["Username"] = user.Username;
                 Session["IsAdmin"] = user.IsAdmin;
-                Session["UserEmail"] = user.Email; // ✅ Email oturuma eklendi
+                Session["UserEmail"] = user.Email;
+                Session["UserFirstName"] = user.FirstName;
+                Session["UserLastName"] = user.LastName;
 
+                // Kullanıcıyı login sayfasına yönlendir
                 return RedirectToAction("Login");
             }
             return View(user);
         }
 
-        // Çıkış işlemi
+        // Çıkış İşlemi
         public ActionResult Logout()
         {
+            // Oturumu temizle
             Session.Clear();
             return RedirectToAction("Index", "Home");
         }
 
-        // Siparişlerimi görüntüle
-        public ActionResult MyOrders()
-        {
-            string email = Session["UserEmail"]?.ToString();
-            if (email == null) return RedirectToAction("Login");
-
-            var orders = db.Orders
-                           .Include("Items.Product") // ✅ Items içindeki Product'ı da çekiyoruz
-                           .Where(o => o.UserEmail == email)
-                           .ToList();
-
-            return View(orders); // View'e Order listesi dönüyoruz
-        }
-
-        // Onaylanan siparişlerimi görüntüle
-        public ActionResult ConfirmedOrders()
-        {
-            string email = Session["UserEmail"]?.ToString();
-            if (email == null) return RedirectToAction("Login");
-
-            var confirmedOrders = db.Orders
-                                     .Where(o => o.UserEmail == email && o.Status == "Onaylı") // Onaylı siparişler
-                                     .ToList();
-
-            return View(confirmedOrders); // View'e Onaylı sipariş listesi dönüyoruz
-        }
-
-        // İptal edilen siparişleri görüntüle
-        public ActionResult CancelledOrders()
-        {
-            string email = Session["UserEmail"]?.ToString();
-            if (email == null) return RedirectToAction("Login");
-
-            var cancelledOrders = db.CancelledOrders
-                                    .Where(o => o.UserEmail == email) // İptal edilen siparişler
-                                    .ToList();
-
-            return View(cancelledOrders); // İptal edilen siparişleri CancelledOrders view'ına gönder
-        }
-
-        // Profil sayfası
+        // Profil Sayfası
         public ActionResult Profile()
         {
             string email = Session["UserEmail"]?.ToString();
