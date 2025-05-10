@@ -83,3 +83,5 @@ C:\Users\Büşra Ağtaş\Desktop\ECommerceMvcSite\ECommerceMvcSite\ECommerceMvcS
 C:\Users\Büşra Ağtaş\Desktop\ECommerceMvcSite\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.dll
 C:\Users\Büşra Ağtaş\Desktop\ECommerceMvcSite\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.pdb
 C:\Users\Büşra Ağtaş\Desktop\ECommerceMvcSite\ECommerceMvcSite\ECommerceMvcSite\bin\tr\System.Web.Mvc.resources.dll
+C:\Users\Büşra Ağtaş\Desktop\ECommerceMvcSite\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddCancelledOrderSystem.resources
+C:\Users\Büşra Ağtaş\Desktop\ECommerceMvcSite\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddIsCancelledToOrder.resources

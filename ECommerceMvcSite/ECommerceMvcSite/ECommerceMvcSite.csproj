@@ -121,6 +121,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -172,6 +173,14 @@
     <Compile Include="Migrations\202505071327281_UpdateDatabaseAgain2.cs" />
     <Compile Include="Migrations\202505071327281_UpdateDatabaseAgain2.Designer.cs">
       <DependentUpon>202505071327281_UpdateDatabaseAgain2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505091900003_AddCancelledOrderSystem.cs" />
+    <Compile Include="Migrations\202505091900003_AddCancelledOrderSystem.Designer.cs">
+      <DependentUpon>202505091900003_AddCancelledOrderSystem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505091917194_AddIsCancelledToOrder.cs" />
+    <Compile Include="Migrations\202505091917194_AddIsCancelledToOrder.Designer.cs">
+      <DependentUpon>202505091917194_AddIsCancelledToOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -272,10 +281,11 @@
     <Content Include="Views\Admin\AddProduct.cshtml" />
     <Content Include="Views\Account\MyOrders.cshtml" />
     <Content Include="Views\Account\CancelledOrders.cshtml" />
-    <Content Include="Views\Account\Profilim.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Order\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
@@ -317,6 +327,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202505071327281_UpdateDatabaseAgain2.resx">
       <DependentUpon>202505071327281_UpdateDatabaseAgain2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505091900003_AddCancelledOrderSystem.resx">
+      <DependentUpon>202505091900003_AddCancelledOrderSystem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505091917194_AddIsCancelledToOrder.resx">
+      <DependentUpon>202505091917194_AddIsCancelledToOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,23 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// OrderItem.cs
+using ECommerceMvcSite.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ECommerceMvcSite.Models
+public class OrderItem
 {
-    public class OrderItem
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        [ForeignKey("Order")]
-        public int OrderId { get; set; }
+    [ForeignKey("Order")]
+    public int? OrderId { get; set; }
 
-        [ForeignKey("Product")]
-        public int ProductId { get; set; }
+    [ForeignKey("CancelledOrder")]
+    public int? CancelledOrderId { get; set; }
 
-        public int Quantity { get; set; }
+    [ForeignKey("Product")]
+    public int ProductId { get; set; }
 
-        // Navigation Properties
-        public virtual Order Order { get; set; }
+    public int Quantity { get; set; }
 
-        public virtual Product Product { get; set; }
-    }
+    public virtual Order Order { get; set; }
+    public virtual CancelledOrder CancelledOrder { get; set; }
+    public virtual Product Product { get; set; }
 }
