@@ -1,11 +1,11 @@
-﻿@page
+﻿
 @{
     ViewBag.Title = "İletişim";
 }
 
 <h2>@ViewBag.Message</h2>
 
-<form action="@Url.Action("Contact", "Home")" method="post">
+<form action="@Url.Action("Iletisim", "Home")" method="post">
     <div class="form-group">
         <label for="name">Ad Soyad</label>
         <input type="text" id="name" name="name" class="form-control" required />

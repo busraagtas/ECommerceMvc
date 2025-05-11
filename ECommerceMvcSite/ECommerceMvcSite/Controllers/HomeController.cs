@@ -26,7 +26,7 @@ namespace ECommerceMvcSite.Controllers
             return View();
         }
       */
-        public ActionResult Contact()
+        public ActionResult Iletisim()
         {
             ViewBag.Message = "Bize ulaşın!";
             return View();

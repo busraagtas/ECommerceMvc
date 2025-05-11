@@ -213,6 +213,14 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\deneme.png" />
     <Content Include="Content\deneme2.png" />
+    <Content Include="Content\destek.png" />
+    <Content Include="Content\facebook.png" />
+    <Content Include="Content\güvenli alışveriş.png" />
+    <Content Include="Content\hızlı teslimat.png" />
+    <Content Include="Content\insta.png" />
+    <Content Include="Content\Slider\1.png" />
+    <Content Include="Content\watsapp.png" />
+    <Content Include="Content\x.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
