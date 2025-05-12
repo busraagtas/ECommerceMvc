@@ -172,3 +172,5 @@ C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSi
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerc.B60B2438.Up2Date
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.dll
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.pdb
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddAddressToUser.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddPhoneNumberToUser.resources

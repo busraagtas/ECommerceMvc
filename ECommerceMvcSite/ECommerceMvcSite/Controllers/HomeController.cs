@@ -46,5 +46,11 @@ namespace ECommerceMvcSite.Controllers
             ViewBag.Message = "Lütfen tüm alanları doldurduğunuzdan emin olun!";
             return View();
         }
+        public ActionResult BizeUlasin()
+        {
+            // Bize ulaşın sayfasına giden kullanıcıyı iletişim sayfasına yönlendir
+            return RedirectToAction("Iletisim");
+        }
+
     }
 }

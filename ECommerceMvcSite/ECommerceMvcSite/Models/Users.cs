@@ -24,5 +24,8 @@ namespace ECommerceMvcSite.Models
         public string Password { get; set; }
 
         public bool IsAdmin { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+
     }
 }

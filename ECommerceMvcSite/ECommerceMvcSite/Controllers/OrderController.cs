@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ECommerceMvcSite.Models;
 using System.Data.Entity;
+using System.Net;
 
 namespace ECommerceMvcSite.Controllers
 {
@@ -12,36 +13,75 @@ namespace ECommerceMvcSite.Controllers
     {
         private readonly MyDbContext db = new MyDbContext();
 
-        public ActionResult ConfirmedOrders()
+
+        //public ActionResult CancelledOrders()
+        //{
+        //    var userEmail = User.Identity.Name; // Giriş yapan kullanıcının email'i
+        //    if (string.IsNullOrEmpty(userEmail))
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
+
+        //    var cancelledOrders = db.Orders
+        //        .Where(o => o.UserEmail == userEmail && o.IsCancelled) // İptal edilen siparişler
+        //        .Include(o => o.Items.Select(i => i.Product)) // Siparişe ait ürünler
+        //        .ToList();
+
+        //    return View("CancelledOrders", cancelledOrders);
+        //}
+
+
+        [Authorize]
+        public ActionResult Siparislerim()
         {
-            var userEmail = Session["UserEmail"]?.ToString();
-            if (string.IsNullOrEmpty(userEmail))
+            var testOrder = new Order
             {
-                return RedirectToAction("Login", "Account");
+                Id = 1,
+                OrderDate = DateTime.Now,
+                UserEmail = "test@example.com",
+                IsCancelled = false,
+                Items = new List<OrderItem>
+        {
+            new OrderItem
+            {
+                Quantity = 2,
+                Product = new Product
+                {
+                    Name = "Test Ürünü",
+                    ImageUrl = "~/images/test.jpg"
+                }
             }
+        }
+            };
 
-            var confirmedOrders = db.Orders
-                .Where(o => o.UserEmail == userEmail && !o.IsCancelled)
-                .Include(o => o.Items.Select(i => i.Product))
-                .ToList();
-
-            return View("Confirmed", confirmedOrders);
+            var orders = new List<Order> { testOrder };
+            return View(orders);
         }
 
-        public ActionResult CancelledOrders()
+        [HttpPost]
+        public ActionResult IptalEt(int orderId)
         {
-            var userEmail = Session["UserEmail"]?.ToString();
-            if (string.IsNullOrEmpty(userEmail))
+            // Örnek DbContext adı: db
+            var order = db.Orders.FirstOrDefault(o => o.Id == orderId);
+
+            // Kullanıcı doğrulama (opsiyonel ama önerilir)
+            if (order == null || order.IsCancelled)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Siparislerim");
             }
 
-            var cancelledOrders = db.CancelledOrders
-                .Where(c => c.UserEmail == userEmail)
-                .Include(c => c.Items.Select(i => i.Product))
-                .ToList();
+            // Güvenlik: Sadece kendi siparişini iptal etsin
+            var currentUserEmail = User.Identity.Name;
+            if (order.UserEmail != currentUserEmail)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
 
-            return View("CancelledOrders", cancelledOrders);
+            order.IsCancelled = true;
+            db.SaveChanges();
+
+            return RedirectToAction("Siparislerim");
         }
+
     }
 }

@@ -182,6 +182,14 @@
     <Compile Include="Migrations\202505091917194_AddIsCancelledToOrder.Designer.cs">
       <DependentUpon>202505091917194_AddIsCancelledToOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505112113431_AddAddressToUser.cs" />
+    <Compile Include="Migrations\202505112113431_AddAddressToUser.Designer.cs">
+      <DependentUpon>202505112113431_AddAddressToUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505112131233_AddPhoneNumberToUser.cs" />
+    <Compile Include="Migrations\202505112131233_AddPhoneNumberToUser.Designer.cs">
+      <DependentUpon>202505112131233_AddPhoneNumberToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\CancelledOrder.cs" />
@@ -290,10 +298,12 @@
     <Content Include="Views\Account\MyOrders.cshtml" />
     <Content Include="Views\Account\CancelledOrders.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Order\Siparislerim.cshtml" />
+    <Content Include="Views\Account\NoOrders.cshtml" />
+    <Content Include="Views\Account\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Order\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
@@ -341,6 +351,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202505091917194_AddIsCancelledToOrder.resx">
       <DependentUpon>202505091917194_AddIsCancelledToOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505112113431_AddAddressToUser.resx">
+      <DependentUpon>202505112113431_AddAddressToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505112131233_AddPhoneNumberToUser.resx">
+      <DependentUpon>202505112131233_AddPhoneNumberToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
