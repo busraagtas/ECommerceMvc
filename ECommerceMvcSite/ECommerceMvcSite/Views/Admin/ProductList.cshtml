@@ -1,0 +1,28 @@
+﻿@model List<ECommerceMvcSite.Models.Product>
+
+<h2>Ürün Listesi</h2>
+
+@if (TempData["Message"] != null)
+{
+    <p style="color:green">@TempData["Message"]</p>
+}
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Ad</th>
+        <th>Fiyat</th>
+        <th>Stok</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.Price ₺</td>
+            <td>@item.Stock</td>
+        </tr>
+    }
+</table>
+
+<p><a href="@Url.Action("AddProduct", "Admin")">Yeni Ürün Ekle</a></p>

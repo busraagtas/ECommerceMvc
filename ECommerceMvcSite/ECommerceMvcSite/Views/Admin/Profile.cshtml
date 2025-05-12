@@ -1,0 +1,34 @@
+﻿@model List<ECommerceMvcSite.Models.Product>
+
+<h2>Admin Profilim</h2>
+
+<div>
+    <h3>Ürünler</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Ürün Adı</th>
+                <th>Fiyat</th>
+                <th>Stok</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                    <td>@item.Stock</td>
+                    <td>
+                        <a href="@Url.Action("EditProduct", "Admin", new { id = item.Id })">Güncelle</a> |
+                        <a href="@Url.Action("DeleteProduct", "Admin", new { id = item.Id })" onclick="return confirm('Silmek istediğinizden emin misiniz?');">Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <a href="@Url.Action("AddProduct", "Admin")">Yeni Ürün Ekle</a>
+</div>

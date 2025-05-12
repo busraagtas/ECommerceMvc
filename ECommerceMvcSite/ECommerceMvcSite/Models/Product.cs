@@ -19,5 +19,6 @@ namespace ECommerceMvcSite.Models
 
         // Eğer stok miktarı eklemek isterseniz:
         public int StockQuantity { get; set; }
+        public int Stock {  get; set; }
     }
 }

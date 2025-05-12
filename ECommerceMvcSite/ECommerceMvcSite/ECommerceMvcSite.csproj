@@ -190,6 +190,18 @@
     <Compile Include="Migrations\202505112131233_AddPhoneNumberToUser.Designer.cs">
       <DependentUpon>202505112131233_AddPhoneNumberToUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505121543212_AddStockToProduct.cs" />
+    <Compile Include="Migrations\202505121543212_AddStockToProduct.Designer.cs">
+      <DependentUpon>202505121543212_AddStockToProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505121950357_RemoveStockQuantityProperly.cs" />
+    <Compile Include="Migrations\202505121950357_RemoveStockQuantityProperly.Designer.cs">
+      <DependentUpon>202505121950357_RemoveStockQuantityProperly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505121959303_AddStockQuantityToProduct.cs" />
+    <Compile Include="Migrations\202505121959303_AddStockQuantityToProduct.Designer.cs">
+      <DependentUpon>202505121959303_AddStockQuantityToProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\CancelledOrder.cs" />
@@ -219,8 +231,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
-    <Content Include="Content\deneme.png" />
-    <Content Include="Content\deneme2.png" />
     <Content Include="Content\destek.png" />
     <Content Include="Content\facebook.png" />
     <Content Include="Content\güvenli alışveriş.png" />
@@ -301,9 +311,14 @@
     <Content Include="Views\Order\Siparislerim.cshtml" />
     <Content Include="Views\Account\NoOrders.cshtml" />
     <Content Include="Views\Account\Settings.cshtml" />
+    <Content Include="Views\Admin\AdminLogin.cshtml" />
+    <Content Include="Views\Admin\ProductList.cshtml" />
+    <Content Include="Views\Admin\Profile.cshtml" />
+    <Content Include="Views\Admin\EditProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
@@ -357,6 +372,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202505112131233_AddPhoneNumberToUser.resx">
       <DependentUpon>202505112131233_AddPhoneNumberToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505121543212_AddStockToProduct.resx">
+      <DependentUpon>202505121543212_AddStockToProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505121950357_RemoveStockQuantityProperly.resx">
+      <DependentUpon>202505121950357_RemoveStockQuantityProperly.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505121959303_AddStockQuantityToProduct.resx">
+      <DependentUpon>202505121959303_AddStockQuantityToProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

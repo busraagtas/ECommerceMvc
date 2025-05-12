@@ -85,6 +85,25 @@ C:\Users\Büşra Ağtaş\Desktop\ECommerceMvcSite\ECommerceMvcSite\ECommerceMvcS
 C:\Users\Büşra Ağtaş\Desktop\ECommerceMvcSite\ECommerceMvcSite\ECommerceMvcSite\bin\tr\System.Web.Mvc.resources.dll
 C:\Users\Büşra Ağtaş\Desktop\ECommerceMvcSite\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddCancelledOrderSystem.resources
 C:\Users\Büşra Ağtaş\Desktop\ECommerceMvcSite\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddIsCancelledToOrder.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.csproj.AssemblyReference.cache
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.InitialCreate.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.FixProductModel.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.FixProductModel1.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.Mig1.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddUserTable.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddOrderAndCancelledOrder.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddUserEmail.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.UpdateDatabase.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.UpdateDatabaseWithOrderItemChanges.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.UpdateDatabase1.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.UpdateDatabaseAgain.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.UpdateDatabaseAgain2.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddCancelledOrderSystem.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddIsCancelledToOrder.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddAddressToUser.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddPhoneNumberToUser.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.csproj.GenerateResource.cache
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.csproj.CoreCompileInputs.cache
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\bin\ECommerceMvcSite.dll.config
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\bin\ECommerceMvcSite.dll
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\bin\ECommerceMvcSite.pdb
@@ -152,25 +171,9 @@ C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSi
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\bin\tr\System.Web.WebPages.Deployment.resources.dll
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\bin\tr\System.Web.WebPages.Razor.resources.dll
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\bin\tr\System.Web.Optimization.resources.dll
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.csproj.AssemblyReference.cache
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.InitialCreate.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.FixProductModel.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.FixProductModel1.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.Mig1.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddUserTable.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddOrderAndCancelledOrder.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddUserEmail.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.UpdateDatabase.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.UpdateDatabaseWithOrderItemChanges.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.UpdateDatabase1.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.UpdateDatabaseAgain.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.UpdateDatabaseAgain2.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddCancelledOrderSystem.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddIsCancelledToOrder.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.csproj.GenerateResource.cache
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.csproj.CoreCompileInputs.cache
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerc.B60B2438.Up2Date
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.dll
 C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.pdb
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddAddressToUser.resources
-C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddPhoneNumberToUser.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddStockToProduct.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.RemoveStockQuantityProperly.resources
+C:\Users\Miray\Desktop\Project\ECommerceMvcSitee\ECommerceMvcSite\ECommerceMvcSite\obj\Debug\ECommerceMvcSite.Migrations.AddStockQuantityToProduct.resources

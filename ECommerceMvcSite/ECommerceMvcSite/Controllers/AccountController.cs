@@ -33,10 +33,26 @@ namespace ECommerceMvcSite.Controllers
         {
             string hashedPassword = HashPassword(password);
 
+            // Admin için sabit kontrol
+            if (email == "admin@site.com" && password == "admin1234")
+            {
+                // Admin girişi
+                Session["UserId"] = 0; // Admin için özel bir id atayabiliriz
+                Session["Username"] = "Admin";
+                Session["IsAdmin"] = true;
+                Session["UserEmail"] = email;
+                Session["UserFirstName"] = "Admin";
+                Session["UserLastName"] = "Admin";
+
+                return RedirectToAction("Index", "Admin");  // Admin paneline yönlendir
+            }
+
+            // Normal kullanıcı kontrolü
             var user = db.Users.FirstOrDefault(x => x.Email == email && x.Password == hashedPassword);
 
             if (user != null)
             {
+                // Kullanıcı bilgilerini session'a kaydediyoruz
                 Session["UserId"] = user.Id;
                 Session["Username"] = user.Username;
                 Session["IsAdmin"] = user.IsAdmin;
@@ -44,14 +60,22 @@ namespace ECommerceMvcSite.Controllers
                 Session["UserFirstName"] = user.FirstName;
                 Session["UserLastName"] = user.LastName;
 
-                Console.WriteLine($"UserFirstName: {Session["UserFirstName"]}, UserLastName: {Session["UserLastName"]}");
-
-                return RedirectToAction("Index", "Home");
+                if (user.IsAdmin)
+                {
+                    // Admin ise Admin paneline yönlendir
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    // Normal kullanıcı ise Home sayfasına yönlendir
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             ViewBag.Error = "Kullanıcı adı veya şifre hatalı";
             return View();
         }
+
 
         // Kayıt Sayfası (GET)
         public ActionResult Register()

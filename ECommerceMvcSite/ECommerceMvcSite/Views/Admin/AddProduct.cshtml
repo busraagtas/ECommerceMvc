@@ -8,17 +8,33 @@
 
 @using (Html.BeginForm())
 {
-    @Html.LabelFor(x => x.Name)
-    @Html.TextBoxFor(x => x.Name)
+    @Html.AntiForgeryToken()
 
-    @Html.LabelFor(x => x.Price)
-    @Html.TextBoxFor(x => x.Price)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+    </div>
 
-    @Html.LabelFor(x => x.Description)
-    @Html.TextBoxFor(x => x.Description)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Price)
+        @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+    </div>
 
-    @Html.LabelFor(x => x.ImageUrl)
-    @Html.TextBoxFor(x => x.ImageUrl)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Stock)
+        @Html.TextBoxFor(model => model.Stock, new { @class = "form-control" })
+    </div>
 
-    <button type="submit">Kaydet</button>
+    <button type="submit" class="btn btn-primary">Ürünü Ekle</button>
+}
+@using (Html.BeginForm("AddProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label>Ürün Fotoğrafı</label>
+        <input type="file" name="imageFile" class="form-control" />
+    </div>
+
+    <input type="submit" value="Ekle" class="btn btn-success" />
 }
