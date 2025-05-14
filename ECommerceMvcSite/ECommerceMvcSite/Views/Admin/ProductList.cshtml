@@ -1,0 +1,62 @@
+﻿@model List<ECommerceMvcSite.Models.Product>
+
+<h2>Admin Paneli</h2>
+
+@if (TempData["Message"] != null)
+{
+    <p style="color:green">@TempData["Message"]</p>
+}
+
+<p><a href="@Url.Action("AddProduct", "Admin")" class="btn btn-success">Yeni Ürün Ekle</a></p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ad</th>
+            <th>Açıklama</th>
+            <th>Fiyat</th>
+            <th>Stok</th>
+            <th>Görsel</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Price ₺</td>
+                <td>@item.Stock</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@Url.Content(item.ImageUrl)" alt="Ürün Görseli" width="100" />
+                    }
+                    else
+                    {
+                        <span>Görsel yok</span>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("EditProduct", "Admin", new { id = item.Id })" class="btn btn-primary btn-sm">Düzenle</a>
+
+                    <!-- Admin kontrolü: Admin için Sepete Ekle butonunu gizle -->
+                    @if (Session["IsAdmin"] == null || !(bool)Session["IsAdmin"])
+                    {
+                        <button class="btn btn-success btn-sm">Sepete Ekle</button>
+                    }
+
+                    @using (Html.BeginForm("DeleteProduct", "Admin", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("id", item.Id)
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

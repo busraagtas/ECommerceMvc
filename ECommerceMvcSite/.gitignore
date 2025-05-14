@@ -1,0 +1,10 @@
+# Geçici klasörler
+.vs/
+bin/
+obj/
+*.user
+*.suo
+
+# Yaygın diğer dışlanacaklar
+*.log
+*.tmp

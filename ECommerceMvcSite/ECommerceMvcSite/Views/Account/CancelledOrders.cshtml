@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ECommerceMvcSite.Models.Order>
+
+@{
+    ViewBag.Title = "İptal Edilen Siparişler";
+}
+
+<h2 class="mb-4">İptal Edilen Siparişler</h2>
+
+@if (Model.Any())
+{
+    foreach (var cancelledOrder in Model)
+    {
+        <div class="card mb-4 border-danger">
+            <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                <span>
+                    <strong>İptal Tarihi:</strong>@cancelledOrder.OrderDate.ToString("dd.MM.yyyy HH:mm")</span>
+                <span><strong>Durum:</strong> İptal Edildi</span>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Ürünler</h5>
+                <ul class="list-group list-group-flush mb-3">
+                    @foreach (var item in cancelledOrder.Items)
+                    {
+                        <li class="list-group-item">
+                            @item.Product.Name - @item.Quantity adet (Birim Fiyat: @item.Product.Price TL)
+                        </li>
+                    }
+                </ul>
+                <p><strong>Toplam Fiyat:</strong> @cancelledOrder.Items.Sum(i => i.Product.Price * i.Quantity) TL</p>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-info">
+        İptal edilmiş bir siparişiniz bulunmamaktadır.
+    </div>
+}
