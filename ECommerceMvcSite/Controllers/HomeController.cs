@@ -13,12 +13,11 @@ namespace ECommerceMvcSite.Controllers
             var products = _context.Products.ToList();
             return View(products);
         }
-
         public ActionResult Hakkimizda()  
         {
             ViewBag.Message = "Biz kimiz? Neler yapıyoruz?";
             return View();
-        }
+        }//pjddjsdzpfwjdpszl
 
       /*  public ActionResult About()
         {
