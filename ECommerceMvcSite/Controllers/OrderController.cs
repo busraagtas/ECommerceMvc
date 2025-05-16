@@ -14,23 +14,6 @@ namespace ECommerceMvcSite.Controllers
         private readonly MyDbContext db = new MyDbContext();
 
 
-        //public ActionResult CancelledOrders()
-        //{
-        //    var userEmail = User.Identity.Name; // Giriş yapan kullanıcının email'i
-        //    if (string.IsNullOrEmpty(userEmail))
-        //    {
-        //        return RedirectToAction("Login", "Account");
-        //    }
-
-        //    var cancelledOrders = db.Orders
-        //        .Where(o => o.UserEmail == userEmail && o.IsCancelled) // İptal edilen siparişler
-        //        .Include(o => o.Items.Select(i => i.Product)) // Siparişe ait ürünler
-        //        .ToList();
-
-        //    return View("CancelledOrders", cancelledOrders);
-        //}
-
-
         [Authorize]
         public ActionResult Siparislerim()
         {
