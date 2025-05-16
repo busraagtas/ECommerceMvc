@@ -258,6 +258,9 @@
     <Content Include="Content\hızlı teslimat.png" />
     <Content Include="Content\insta.png" />
     <Content Include="Content\Slider\1.png" />
+    <Content Include="Content\Slider\slide1.mp4" />
+    <Content Include="Content\Slider\slide2.mp4" />
+    <Content Include="Content\Slider\slide3.mp4" />
     <Content Include="Content\watsapp.png" />
     <Content Include="Content\x.png" />
     <Content Include="favicon.ico" />
@@ -341,6 +344,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\image\" />
+    <Folder Include="Images\Products\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>

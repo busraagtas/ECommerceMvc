@@ -13,18 +13,35 @@
 }
 
 header {
-    background-color: #222;
-    color: white;
-    padding: 15px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 240, 180, 0.6);
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+    header.scrolled {
+        background-color: rgba(255, 240, 180, 1);
+    }
+
+#mainCarousel,
+#mainCarousel .carousel-item,
+#mainCarousel video {
+    height: 100vh;
+    width: 100%;
+    object-fit: cover;
 }
 
 .logo h1 {
     margin: 0;
     font-size: 24px;
+    color: black;
 }
 
 .logo a {
-    color: white;
+    color: black;
     text-decoration: none;
 }
 
@@ -36,26 +53,22 @@ nav.menu ul {
     gap: 20px;
 }
 
-    nav.menu ul li {
-        display: inline;
+    nav.menu ul li a {
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
     }
 
-        nav.menu ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
+        nav.menu ul li a:hover {
+            text-decoration: underline;
         }
-
-            nav.menu ul li a:hover {
-                text-decoration: underline;
-            }
 
 main {
     padding: 30px 0;
 }
 
 footer {
-    background-color: #222;
+    background-color: rgba(255, 240, 180, 0.6);
     color: white;
     text-align: center;
     padding: 20px 0;
@@ -90,7 +103,6 @@ footer {
         background-color: #0056b3;
     }
 
-/* Ürün kartı düzeni */
 .product-card {
     display: flex;
     align-items: center;
@@ -103,19 +115,16 @@ footer {
     background-color: #fff;
 }
 
-/* Ürün görseli */
 .product-image {
-    width: 150px; /* Görsellerin genişliğini ayarladık */
+    width: 150px;
     height: auto;
-    margin-right: 15px; /* Görsel ile ürün bilgileri arasına boşluk */
+    margin-right: 15px;
 }
 
-/* Ürün bilgileri */
 .product-info {
-    flex-grow: 1; /* Ürün bilgileri sağa kadar yayılacak şekilde */
+    flex-grow: 1;
 }
 
-/* Sepete Ekle butonu */
 .add-to-cart-btn {
     background-color: #28a745;
     color: white;
@@ -131,16 +140,12 @@ footer {
         background-color: #218838;
     }
 
-/* Sepet kartı düzenlemesi */
 .product-card img {
-    width: 100%; /* Resimleri kapsayacak şekilde */
-    max-width: 150px; /* Maksimum genişlik sınırı */
+    width: 100%;
+    max-width: 150px;
     height: auto;
 }
 
-
-
-/* İletişim formu stilleri */
 form {
     background-color: #fff;
     padding: 20px;

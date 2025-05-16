@@ -43,7 +43,7 @@ namespace ECommerceMvcSite.Controllers
                 Session["UserRole"] = "Admin"; // ✅ BU SATIRI EKLEDİK
                 Session["UserEmail"] = email;
                 Session["UserFirstName"] = "Admin";
-                Session["UserLastName"] = "Admin";
+                Session["UserLastName"] = "Adminella";
 
                 return RedirectToAction("AddProduct", "Admin"); // Admin paneline yönlendir
             }

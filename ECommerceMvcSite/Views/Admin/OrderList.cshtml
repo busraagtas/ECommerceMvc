@@ -34,25 +34,21 @@
                 </td>
 
                 <td>
-                    @if (order.Status == "Hazırlanıyor")
+                    @using (Html.BeginForm("ApproveOrder", "Admin", FormMethod.Post))
                     {
-                        <!-- Siparişi Onayla Butonu -->
-                        using (Html.BeginForm("OrderList", "Admin", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="orderId" value="@order.Id" />
-                            <button type="submit" class="btn btn-success btn-sm">Siparişi Onayla</button>
-                        }
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="orderId" value="@order.Id" />
+                        <button type="submit" class="btn btn-success btn-sm">Siparişi Onayla</button>
+                    }
 
-                        <!-- Siparişi İptal Et Butonu -->
-                        using (Html.BeginForm("CancelOrderByAdmin", "Admin", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="orderId" value="@order.Id" />
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bu siparişi iptal etmek istediğinize emin misiniz?');">Siparişi İptal Et</button>
-                        }
+                    @using (Html.BeginForm("CancelOrderByAdmin", "Admin", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="orderId" value="@order.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bu siparişi iptal etmek istediğinize emin misiniz?');">Siparişi İptal Et</button>
                     }
                 </td>
+
             </tr>
         }
     </tbody>

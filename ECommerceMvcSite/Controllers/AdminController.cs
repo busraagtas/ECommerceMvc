@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
+using System.IO;
 
 
 public class AdminController : Controller
@@ -28,6 +29,39 @@ public class AdminController : Controller
 
         return View(); // Views/Admin/AddProduct.cshtml
     }
+
+
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult AddProduct(Product product, HttpPostedFileBase imageFile)
+    {
+        if (!IsAdmin()) return RedirectToAction("Login", "Account");
+
+        if (ModelState.IsValid)
+        {
+            // Görseli kaydet
+            if (imageFile != null && imageFile.ContentLength > 0)
+            {
+                string fileName = Path.GetFileName(imageFile.FileName);
+                string path = Path.Combine(Server.MapPath("~/Images/Products"), fileName);
+                imageFile.SaveAs(path);
+
+                product.ImageUrl = "/Images/Products/" + fileName;
+            }
+
+            // Veritabanına ekle (örnek)
+            db.Products.Add(product);
+            db.SaveChanges();
+
+            TempData["Message"] = "Ürün başarıyla eklendi.";
+            return RedirectToAction("ProductList"); // veya liste sayfanın adı neyse
+        }
+
+        return View(product); // Hatalıysa aynı sayfada kal
+    }
+
 
     // Admin Paneli: Ürün listeleme
     public ActionResult ProductList()
@@ -53,6 +87,10 @@ public class AdminController : Controller
 
         return View(orders); // Siparişleri ve TotalPrice'ı View'a gönder
     }
+
+
+
+
 
     // Siparişi onaylama
     [HttpPost]
@@ -84,16 +122,15 @@ public class AdminController : Controller
 
 
 
-        return RedirectToAction("ProductList");
 
 
 
         // E-posta gönder
         try
         {
-            var fromAddress = new MailAddress("agtasbusra96@gmail.com", "Masakı");
+            var fromAddress = new MailAddress("agbusra658@gmail.com", "Masakı");
             var toAddress = new MailAddress(order.UserEmail);
-            const string fromPassword = "uygulama_sifresi"; // Gmail için özel uygulama şifresi gerekir
+            const string fromPassword = "bxkl yybl zbpb zysz"; // Gmail için özel uygulama şifresi gerekir
             const string subject = "Siparişiniz Onaylandı";
             string body = $"Merhaba,\n\n{orderId} numaralı siparişiniz onaylanmıştır. En kısa sürede hazırlanıp kargoya verilecektir.\n\nBizi tercih ettiğiniz için teşekkür ederiz.✨";
 
@@ -121,6 +158,9 @@ public class AdminController : Controller
             // Loglama yapılabilir
             TempData["Message"] = "Sipariş onaylandı ancak mail gönderilemedi: " + ex.Message;
         }
+
+        return RedirectToAction("ProductList");
+
 
     }
 
