@@ -9,8 +9,15 @@
             <h3>@product.Name</h3>
             <p>@product.Price ₺</p>
         </div>
-
+        <!-- Stok kontrolü -->
+        @if (product.Stock == 0)
+        {
+            <span class="out-of-stock">Tükendi</span>
+        }
+        else
+        {
         <!-- Sepete Ekle butonu -->
         <a href="@Url.Action("AddToCart", "Cart", new { productId = product.Id })" class="add-to-cart-btn">Sepete Ekle</a>
+        }
     </div>
 }

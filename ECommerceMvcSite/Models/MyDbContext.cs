@@ -10,6 +10,7 @@ namespace ECommerceMvcSite.Models
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<CancelledOrder> CancelledOrders { get; set; }
         public DbSet<ApprovedOrder> ApprovedOrders { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         // OnModelCreating metodu
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -120,6 +120,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -222,11 +223,24 @@
     <Compile Include="Migrations\202505132055041_Mig2.Designer.cs">
       <DependentUpon>202505132055041_Mig2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505170916213_AddCategoryTable.cs" />
+    <Compile Include="Migrations\202505170916213_AddCategoryTable.Designer.cs">
+      <DependentUpon>202505170916213_AddCategoryTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505170954278_UpdateAfterModelChanges.cs" />
+    <Compile Include="Migrations\202505170954278_UpdateAfterModelChanges.Designer.cs">
+      <DependentUpon>202505170954278_UpdateAfterModelChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505171040161_SeedCategoryFix.cs" />
+    <Compile Include="Migrations\202505171040161_SeedCategoryFix.Designer.cs">
+      <DependentUpon>202505171040161_SeedCategoryFix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\ApprovedOrder.cs" />
     <Compile Include="Models\CancelledOrder.cs" />
     <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\MyDbContext.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItem.cs" />
@@ -341,6 +355,8 @@
     <Content Include="Views\Admin\Profile.cshtml" />
     <Content Include="Views\Admin\EditProduct.cshtml" />
     <Content Include="Views\Admin\OrderList.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -423,6 +439,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202505132055041_Mig2.resx">
       <DependentUpon>202505132055041_Mig2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505170916213_AddCategoryTable.resx">
+      <DependentUpon>202505170916213_AddCategoryTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505170954278_UpdateAfterModelChanges.resx">
+      <DependentUpon>202505170954278_UpdateAfterModelChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505171040161_SeedCategoryFix.resx">
+      <DependentUpon>202505171040161_SeedCategoryFix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,13 @@
+﻿@model ECommerceMvcSite.Models.Category
+
+<h2>Yeni Kategori Ekle</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(m => m.Name)
+    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Name)
+
+    <br />
+    <input type="submit" value="Kaydet" class="btn btn-success" />
+}

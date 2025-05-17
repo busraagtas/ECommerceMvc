@@ -26,13 +26,10 @@ public class AdminController : Controller
     public ActionResult AddProduct()
     {
         if (!IsAdmin()) return RedirectToAction("Login", "Account");
-
+        var categories = db.Categories.ToList();
+        ViewBag.Categories = new SelectList(categories, "Id", "Name");
         return View(); // Views/Admin/AddProduct.cshtml
     }
-
-
-
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult AddProduct(Product product, HttpPostedFileBase imageFile)
@@ -58,7 +55,8 @@ public class AdminController : Controller
             TempData["Message"] = "Ürün başarıyla eklendi.";
             return RedirectToAction("ProductList"); // veya liste sayfanın adı neyse
         }
-
+        var categories = db.Categories.ToList();
+        ViewBag.Categories = new SelectList(categories, "Id", "Name");
         return View(product); // Hatalıysa aynı sayfada kal
     }
 
@@ -87,11 +85,6 @@ public class AdminController : Controller
 
         return View(orders); // Siparişleri ve TotalPrice'ı View'a gönder
     }
-
-
-
-
-
     // Siparişi onaylama
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -119,13 +112,7 @@ public class AdminController : Controller
             db.SaveChanges();
             TempData["Message"] = "Sipariş onaylandı.";
         }
-
-
-
-
-
-
-        // E-posta gönder
+       // E-posta gönder
         try
         {
             var fromAddress = new MailAddress("masakioyuncak@gmail.com", "Masakı Oyuncak");
@@ -163,9 +150,7 @@ public class AdminController : Controller
 
 
     }
-
-
-    // Ürün düzenleme sayfası (GET)
+    // GET
     public ActionResult EditProduct(int id)
     {
         if (!IsAdmin()) return RedirectToAction("Login", "Account");
@@ -175,8 +160,13 @@ public class AdminController : Controller
         {
             return HttpNotFound();
         }
-        return View(product); // Views/Admin/EditProduct.cshtml
+
+        var categories = db.Categories.ToList();
+        ViewBag.Categories = new SelectList(categories, "Id", "Name", product.CategoryId); // product.CategoryId seçili olacak
+
+        return View(product);
     }
+
 
     // Ürün düzenleme işlemi (POST)
     [HttpPost]
@@ -198,10 +188,13 @@ public class AdminController : Controller
             product.Stock = model.Stock;
             product.Description = model.Description;
 
+            // Yeni kategori ataması
+            product.CategoryId = model.CategoryId;
+
             if (imageFile != null && imageFile.ContentLength > 0)
             {
-                var fileName = System.IO.Path.GetFileName(imageFile.FileName);
-                var path = System.IO.Path.Combine(Server.MapPath("~/Images/"), fileName);
+                var fileName = Path.GetFileName(imageFile.FileName);
+                var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
                 imageFile.SaveAs(path);
                 product.ImageUrl = "~/Images/" + fileName;
             }
@@ -212,6 +205,10 @@ public class AdminController : Controller
             TempData["Message"] = "Ürün başarıyla güncellendi.";
             return RedirectToAction("ProductList");
         }
+
+        // ModelState hatalıysa kategori listesini tekrar yükle
+        var categories = db.Categories.ToList();
+        ViewBag.Categories = new SelectList(categories, "Id", "Name", model.CategoryId);
 
         return View(model);
     }
@@ -240,11 +237,6 @@ public class AdminController : Controller
 
         return RedirectToAction("OrderList");
     }
-
-
-
-
-
     public ActionResult DeleteProduct(int id)
     {
         if (!IsAdmin()) return RedirectToAction("Login", "Account");
@@ -261,11 +253,6 @@ public class AdminController : Controller
         TempData["Message"] = "Ürün başarıyla silindi.";
         return RedirectToAction("ProductList");
     }
-
-
-
-
-
 
     // Admin çıkışı
     public ActionResult Logout()

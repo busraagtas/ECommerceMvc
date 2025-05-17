@@ -29,5 +29,20 @@
         //        context.SaveChanges();  // Değişiklikleri kaydediyoruz.
         //    }
         //}
+
+        protected override void Seed(MyDbContext context)
+        {
+            if (!context.Categories.Any())
+            {
+                context.Categories.AddOrUpdate(
+                    c => c.Name,
+                    new Category { Name = "Eğitici Oyuncaklar" },
+                    new Category { Name = "Peluş Oyuncaklar" },
+                    new Category { Name = "Ahşap Oyuncaklar" }
+                );
+            }
+
+            context.SaveChanges();
+        }
     }
 }
