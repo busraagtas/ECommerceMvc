@@ -11,6 +11,8 @@ namespace ECommerceMvcSite.Controllers
         public ActionResult Index()
         {
             var products = _context.Products.ToList();
+            var categories = _context.Categories.ToList();
+            ViewBag.Categories = categories;
             return View(products);
         }
         public ActionResult Hakkimizda()  

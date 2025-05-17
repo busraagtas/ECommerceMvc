@@ -183,3 +183,12 @@ button[type="submit"] {
     display: inline-block;
     margin-top: 10px;
 }
+.category-dropdown:hover .dropdown-menu,
+.category-dropdown .dropdown-menu:hover {
+    display: block;
+}
+
+.user-menu-toggle {
+    font-size: 24px;
+}
+

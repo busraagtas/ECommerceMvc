@@ -11,6 +11,7 @@
         <tr>
             <th>ID</th>
             <th>Kategori Adı</th>
+            <th>Fotoğraf</th>  <!-- Yeni sütun -->
             <th>İşlemler</th>
         </tr>
     </thead>
@@ -20,6 +21,16 @@
             <tr>
                 <td>@category.Id</td>
                 <td>@category.Name</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(category.ImageUrl))
+                    {
+                        <img src="@Url.Content(category.ImageUrl)" alt="@category.Name" width="100" />
+                    }
+                    else
+                    {
+                        <span>Fotoğraf yok</span>
+                    }
+                </td>
                 <td>
                     <a href="@Url.Action("Edit", "Category", new { id = category.Id })" class="btn btn-primary btn-sm">Düzenle</a>
 

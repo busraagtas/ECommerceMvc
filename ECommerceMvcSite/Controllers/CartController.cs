@@ -92,6 +92,11 @@ namespace ECommerceMvcSite.Controllers
             var cart = Session["Cart"] as List<CartItem>;
             var userEmail = Session["UserEmail"]?.ToString();
 
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                TempData["Message"] = "Lütfen giriş yapınız.";
+                return RedirectToAction("Index", "Cart");
+            }
             // Sepet boşsa mesaj ver
             if (cart == null || !cart.Any())
             {

@@ -235,6 +235,10 @@
     <Compile Include="Migrations\202505171040161_SeedCategoryFix.Designer.cs">
       <DependentUpon>202505171040161_SeedCategoryFix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505171124535_AddImageUrlToCategory.cs" />
+    <Compile Include="Migrations\202505171124535_AddImageUrlToCategory.Designer.cs">
+      <DependentUpon>202505171124535_AddImageUrlToCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\ApprovedOrder.cs" />
@@ -266,6 +270,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\CategoryImages\Eğitici oyuncaklar.jpg" />
     <Content Include="Content\destek.png" />
     <Content Include="Content\facebook.png" />
     <Content Include="Content\favicon.ico" />
@@ -357,6 +362,9 @@
     <Content Include="Views\Admin\OrderList.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Category\Add.cshtml" />
+    <Content Include="Views\Products\ListByCategory.cshtml" />
+    <Content Include="Views\Category\Edit.cshtml" />
+    <Content Include="Views\Category\CategoryMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -448,6 +456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202505171040161_SeedCategoryFix.resx">
       <DependentUpon>202505171040161_SeedCategoryFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505171124535_AddImageUrlToCategory.resx">
+      <DependentUpon>202505171124535_AddImageUrlToCategory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

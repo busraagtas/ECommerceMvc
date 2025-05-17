@@ -2,11 +2,18 @@
 
 <h2>Yeni Kategori Ekle</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Add", "Category", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.AntiForgeryToken()
+
     @Html.LabelFor(m => m.Name)
     @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.Name)
+
+    <br />
+
+    <label for="CategoryImage">Kategori Fotoğrafı</label>
+    <input type="file" name="CategoryImage" id="CategoryImage" accept="image/*" class="form-control" />
 
     <br />
     <input type="submit" value="Kaydet" class="btn btn-success" />

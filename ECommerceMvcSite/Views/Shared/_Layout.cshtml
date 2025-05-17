@@ -94,7 +94,13 @@
                     <li><a href="@Url.Action("Hakkimizda", "Home")">Hakkımızda</a></li>
                     <li><a href="@Url.Action("Iletisim", "Home")">İletişim</a></li>
                     <li><a href="@Url.Action("Index", "Products")">Ürünler</a></li>
-
+                    <!-- Kategoriler Açılır Menü -->
+                    <li class="dropdown category-dropdown" style="position: relative;">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="font-weight:bold; font-size:16px;">Kategoriler <span class="caret"></span></a>
+                        <div class="dropdown-menu category-menu">
+                            @Html.Action("CategoryMenu", "Category")
+                        </div>
+                    </li>
                     @if (Session["UserRole"]?.ToString() == "User")
                     {
                         <li><a href="@Url.Action("Index", "Cart")">Sepetim</a></li>
@@ -114,7 +120,7 @@
                 {
                     <span class="welcome-text">Hoş geldin, @Session["UserFirstName"] @Session["UserLastName"]</span>
                     <div class="dropdown">
-                        <span id="menuToggle" class="dropdown-toggle">&#8942;</span>
+                        <span id="menuToggle" class="dropdown-toggle user-menu-toggle">&#8942;</span>
                         <div id="userMenu" class="dropdown-menu" style="display: none;">
                             @if (Session["UserRole"]?.ToString() == "User")
                             {

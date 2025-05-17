@@ -13,5 +13,15 @@ namespace ECommerceMvcSite.Controllers
             var products = db.Products.ToList();
             return View(products);
         }
+        // Yeni: Kategoriye göre ürün listeleme
+        public ActionResult ListByCategory(int categoryId)
+        {
+            var products = db.Products
+                           .Where(p => p.CategoryId == categoryId)
+                           .ToList();
+
+            return View("Index", products); // aynı Index view'ını kullanabilirsin
+        }
+
     }
 }

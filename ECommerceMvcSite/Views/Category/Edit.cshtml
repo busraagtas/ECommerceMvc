@@ -1,0 +1,41 @@
+﻿@model ECommerceMvcSite.Models.Category
+
+@{
+    ViewBag.Title = "Kategori Düzenle";
+}
+
+<h2>Kategori Düzenle</h2>
+
+@using (Html.BeginForm("Edit", "Category", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+
+    <div class="form-group">
+        <p><strong>Model.ImageUrl:</strong> @Model.ImageUrl</p>
+        <label>Mevcut Resim</label><br />
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="@Url.Content(Model.ImageUrl).Replace(" ", "%20")" alt="Kategori Resmi" style="max-width:200px;" />
+        }
+        else
+        {
+            <p>Resim yok</p>
+        }
+    </div>
+
+    <div class="form-group">
+        <label>Yeni Resim Yükle</label>
+        <input type="file" name="ImageFile" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <a href="@Url.Action("Index", "Category")" class="btn btn-default">İptal</a>
+}

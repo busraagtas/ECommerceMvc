@@ -1,0 +1,32 @@
+﻿@model List<ECommerceMvcSite.Models.Product>
+
+@{
+    ViewBag.Title = "Kategoriye Göre Ürünler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (!Model.Any())
+{
+    <p>Bu kategoride ürün bulunmamaktadır.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@Url.Content(product.ImageUrl)" class="card-img-top" alt="@product.Name" />
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                        <p class="card-text font-weight-bold">@product.Price.ToString("C")</p>
+                        <a href="@Url.Action("Details", "Products", new { id = product.Id })" class="btn btn-primary">Detaylar</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
