@@ -136,16 +136,21 @@ namespace ECommerceMvcSite.Controllers
         // ✅ Siparişlerim Sayfası
         public ActionResult MyOrders()
         {
-            string email = Session["UserEmail"]?.ToString();
+            var email = Session["UserEmail"]?.ToString(); // 🛑 Bu null geliyorsa filtreleme çalışmaz
+
             if (string.IsNullOrEmpty(email))
-                return RedirectToAction("Login");
+            {
+                return RedirectToAction("Login", "Account"); // Kullanıcı giriş yapmamış
+            }
 
             var orders = db.Orders
-                           .Where(o => o.UserEmail == email && !o.IsCancelled)
-                           .ToList();
+                .Where(o => o.UserEmail == email)
+                .Include(o => o.Items.Select(i => i.Product))
+                .ToList();
 
-            return View("ConfirmedOrders", orders); // Confirmed.cshtml dosyasını kullan
+            return View(orders);
         }
+
         public ActionResult ConfirmedOrders()
         {
             var userEmail = Session["UserEmail"]?.ToString();

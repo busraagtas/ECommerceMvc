@@ -2,11 +2,11 @@
     ViewBag.Title = "Giriş Yap";
 }
 
-<h2>Giriş Yap</h2>
+<h2 class="text-center">Giriş Yap</h2>
 
 @if (ViewBag.Error != null)
 {
-    <div style="color:red">@ViewBag.Error</div>
+    <div style="color:red" class="text-center">@ViewBag.Error</div>
 }
 
 @using (Html.BeginForm("Login", "Account", FormMethod.Post))
@@ -23,4 +23,9 @@
 
     <br />
     <button type="submit" class="btn btn-success">Giriş Yap</button>
+
+    <div class="text-center mt-4">
+        <p>Hesabın yok mu?</p>
+        <a href="@Url.Action("Register", "Account")" class="btn btn-outline-primary">Hemen Kaydol</a>
+    </div>
 }

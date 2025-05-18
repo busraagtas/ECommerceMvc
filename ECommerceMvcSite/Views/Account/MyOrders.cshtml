@@ -2,63 +2,72 @@
 
 @{
     ViewBag.Title = "Siparişlerim";
-}
+    var activeTab = Request.QueryString["tab"] ?? "hazirlaniyor";
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Message"]
-    </div>
+    var filteredOrders = activeTab switch
+    {
+        "onaylanan" => Model.Where(o => o.Status == "Onaylandı" && !o.IsCancelled).ToList(),
+        "iptal" => Model.Where(o => o.IsCancelled).ToList(),
+        _ => Model.Where(o => o.Status == "Hazırlanıyor" && !o.IsCancelled).ToList()
+    };
 }
 
 <h2>Siparişlerim</h2>
 
-@if (Model.Any())
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link @(activeTab == "hazirlaniyor" ? "active" : "")" href="?tab=hazirlaniyor">Alınan Siparişlerim</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(activeTab == "onaylanan" ? "active" : "")" href="?tab=onaylanan">Onaylanan Siparişlerim</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(activeTab == "iptal" ? "active" : "")" href="?tab=iptal">İptal Edilen Siparişlerim</a>
+    </li>
+</ul>
+
+@if (!filteredOrders.Any())
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Sipariş Tarihi</th>
-                <th>Ürünler</th>
-                <th>Toplam Fiyat</th>
-                <th>Durum</th>
-                <th>İptal Et</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in Model)
-            {
-                <tr>
-                    <td>@order.OrderDate.ToString("g")</td>
-                    <td>
-                        @foreach (var item in order.Items)
-                        {
-                            <p>@item.Product.Name - @item.Quantity adet</p>
-                        }
-                    </td>
-                    <td>@order.Items.Sum(i => i.Product.Price * i.Quantity) TL</td>
-                    <td>
-                        @if (order.IsCancelled)
-                        {
-                            <span class="text-danger">İptal Edildi</span>
-                        }
-                        else
-                        {
-                            <span class="text-success">Sipariş Onaylandı</span>
-                        }
-                    </td>
-                    <td>
-                        @if (!order.IsCancelled)
-                        {
-                            @Html.ActionLink("İptal Et", "CancelOrder", "Account", new { id = order.Id }, new { @class = "btn btn-danger btn-sm" })
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="alert alert-info">
+        Bu sekmede gösterilecek sipariş bulunmamaktadır.
+    </div>
 }
 else
 {
-    <p>Henüz siparişiniz bulunmamaktadır.</p>
+    foreach (var order in filteredOrders)
+    {
+        <div class="card mb-4">
+            <div class="card-header">
+                <strong>Sipariş Tarihi:</strong> @order.OrderDate.ToString("dd.MM.yyyy HH:mm")<br />
+                <strong>Durum:</strong> @(order.IsCancelled ? "İptal Edildi" : order.Status)
+            </div>
+            <div class="card-body">
+                <ul class="list-group mb-2">
+                    @foreach (var item in order.Items)
+                    {
+                        <li class="list-group-item d-flex align-items-center">
+                            <img src="@Url.Content(item.Product.ImageUrl)" alt="@item.Product.Name" width="80" height="80" class="me-3" />
+                            <div>
+                                <strong>@item.Product.Name</strong><br />
+                                @item.Quantity adet - @item.Product.Price ₺
+                            </div>
+                        </li>
+
+                    }
+                </ul>
+                <p><strong>Toplam Tutar:</strong> @order.Items.Sum(i => i.Quantity * i.Product.Price) ₺</p>
+
+                @if (!order.IsCancelled && order.Status == "Hazırlanıyor")
+                {
+                    using (Html.BeginForm("IptalEt", "Order", FormMethod.Post, new { onsubmit = "return confirm('Bu siparişi iptal etmek istediğinizden emin misiniz?');" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("orderId", order.Id)
+                        <button type="submit" class="btn btn-danger btn-sm">İptal Et</button>
+                    }
+                }
+
+            </div>
+        </div>
+    }
 }

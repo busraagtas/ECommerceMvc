@@ -4,7 +4,7 @@
     ViewBag.Title = "Sepetim";
 }
 
-<h2>Sepetim</h2>
+<h2 class="mb-4">Sepetim</h2>
 
 @if (ViewBag.Message != null)
 {
@@ -13,36 +13,30 @@
 
 @if (Model != null && Model.Count > 0)
 {
-    <table class="cart-table">
-        <thead>
-            <tr>
-                <th>Ürün Resmi</th>
-                <th>Ürün Adı</th>
-                <th>Fiyat</th>
-                <th>Miktar</th>
-                <th>İşlem</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td><img src="@item.Product.ImageUrl" alt="@item.Product.Name" width="100" /></td>
-                    <td>@item.Product.Name</td>
-                    <td>@item.Product.Price ₺</td>
-                    <td>@item.Quantity</td> <!-- Ürün Miktarı -->
-                    <td>
-                        <a href="@Url.Action("RemoveFromCart", "Cart", new { productId = item.Product.Id })" class="btn">Kaldır</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="cart-grid">
+        @foreach (var item in Model)
+        {
+            <div class="cart-card">
+                <img src="@item.Product.ImageUrl" alt="@item.Product.Name" class="product-image" />
 
-    <div class="checkout">
+                <h5>@item.Product.Name</h5>
+                <p class="price">@item.Product.Price.ToString("N2") ₺</p>
+
+                <div class="quantity-controls">
+                    <a href="@Url.Action("DecreaseQuantity", "Cart", new { productId = item.Product.Id })" class="btn btn-sm btn-danger">-</a>
+                    <span>@item.Quantity</span>
+                    <a href="@Url.Action("IncreaseQuantity", "Cart", new { productId = item.Product.Id })" class="btn btn-sm btn-success">+</a>
+                </div>
+
+                <a href="@Url.Action("RemoveFromCart", "Cart", new { productId = item.Product.Id })" class="btn btn-outline-danger btn-sm mt-2">Kaldır</a>
+            </div>
+        }
+    </div>
+
+    <div class="text-center mt-4">
         @using (Html.BeginForm("Checkout", "Cart", FormMethod.Post))
         {
-            <button type="submit" class="btn btn-success" onclick="alert('Siparişiniz alınmıştır!')">Siparişi Onayla</button>
+            <button type="submit" class="btn btn-success btn-lg">Siparişi Onayla</button>
         }
     </div>
 }
@@ -50,3 +44,64 @@ else
 {
     <p>Sepetiniz boş</p>
 }
+
+<style>
+    .cart-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: start;
+    }
+
+    .cart-card {
+        width: 220px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 16px;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
+    }
+
+        .cart-card:hover {
+            transform: scale(1.02);
+        }
+
+    .product-image {
+        width: 100%;
+        height: 160px;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
+
+    .price {
+        color: green;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .quantity-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+        .quantity-controls span {
+            font-weight: bold;
+            min-width: 20px;
+            text-align: center;
+        }
+
+    .btn-outline-danger {
+        border: 1px solid red;
+        color: red;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: red;
+            color: white;
+        }
+</style>

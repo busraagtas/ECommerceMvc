@@ -85,29 +85,54 @@ namespace ECommerceMvcSite.Controllers
 
 
 
+        public ActionResult IncreaseQuantity(int productId)
+        {
+            var cart = Session["Cart"] as List<CartItem> ?? new List<CartItem>();
+            var item = cart.FirstOrDefault(x => x.ProductId == productId);
+            if (item != null)
+            {
+                item.Quantity++;
+            }
+            Session["Cart"] = cart;
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DecreaseQuantity(int productId)
+        {
+            var cart = Session["Cart"] as List<CartItem> ?? new List<CartItem>();
+            var item = cart.FirstOrDefault(x => x.ProductId == productId);
+            if (item != null && item.Quantity > 1)
+            {
+                item.Quantity--;
+            }
+            Session["Cart"] = cart;
+            return RedirectToAction("Index");
+        }
+
+
+
+
+
         [HttpPost]
         public ActionResult Checkout()
         {
-            // Sepeti Session'dan alıyoruz
-            var cart = Session["Cart"] as List<CartItem>;
+            // 1. GİRİŞ YAPILMIŞ MI? — Önce bunu kontrol et
             var userEmail = Session["UserEmail"]?.ToString();
-
             if (string.IsNullOrEmpty(userEmail))
             {
-                TempData["Message"] = "Lütfen giriş yapınız.";
-                return RedirectToAction("Index", "Cart");
+                // Herhangi bir sipariş veya mesaj işlemi yapılmadan direkt login'e yönlendir
+                return RedirectToAction("Login", "Account");
             }
-            // Sepet boşsa mesaj ver
+
+            // 2. SEPET BOŞ MU?
+            var cart = Session["Cart"] as List<CartItem>;
             if (cart == null || !cart.Any())
             {
                 TempData["Message"] = "Sepetiniz boş!";
                 return RedirectToAction("Index", "Cart");
             }
 
-            // Sepetteki ürünleri alıyoruz
-            var products = cart.Select(item => item.Product).ToList();
-
-            // Yeni bir sipariş oluşturuyoruz
+            // 3. SİPARİŞ OLUŞTUR
             var order = new Order
             {
                 UserEmail = userEmail,
@@ -117,29 +142,31 @@ namespace ECommerceMvcSite.Controllers
                 Items = new List<OrderItem>()
             };
 
-            // Ürünleri siparişe ekliyoruz
             foreach (var item in cart)
             {
                 var orderItem = new OrderItem
                 {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
+                    Price = item.Product.Price,
                     Order = order
                 };
                 order.Items.Add(orderItem);
             }
 
-            // Siparişi veritabanına ekliyoruz
+            order.TotalPrice = order.Items.Sum(i => i.Quantity * i.Price);
+
             db.Orders.Add(order);
             db.SaveChanges();
 
-            // Sepeti sıfırlıyoruz
             Session["Cart"] = null;
             TempData["Message"] = "Siparişiniz başarıyla alındı.";
-
-            // Sepet sayfasına yönlendiriyoruz
             return RedirectToAction("Index", "Cart");
         }
+
+
+
+
 
 
     }

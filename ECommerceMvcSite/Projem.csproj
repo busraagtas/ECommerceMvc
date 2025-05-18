@@ -270,12 +270,22 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\CategoryImages\ahsap.jpg" />
+    <Content Include="Content\CategoryImages\araba.jpeg" />
+    <Content Include="Content\CategoryImages\egitici.jpg" />
     <Content Include="Content\CategoryImages\Eğitici oyuncaklar.jpg" />
+    <Content Include="Content\CategoryImages\legolar.jpg" />
+    <Content Include="Content\CategoryImages\oyunhamuru.jpg" />
+    <Content Include="Content\CategoryImages\pelus.jpg" />
+    <Content Include="Content\CategoryImages\SuTabancaı.jpg" />
+    <Content Include="Content\CategoryImages\tren.jpg" />
+    <Content Include="Content\CategoryImages\yapboz.jpg" />
     <Content Include="Content\destek.png" />
     <Content Include="Content\facebook.png" />
     <Content Include="Content\favicon.ico" />
     <Content Include="Content\güvenli alışveriş.png" />
     <Content Include="Content\hızlı teslimat.png" />
+    <Content Include="Content\image\indir %282%29.jpg" />
     <Content Include="Content\insta.png" />
     <Content Include="Content\Slider\1.png" />
     <Content Include="Content\Slider\slide1.mp4" />
@@ -365,10 +375,10 @@
     <Content Include="Views\Products\ListByCategory.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
     <Content Include="Views\Category\CategoryMenu.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\image\" />
     <Folder Include="Images\Products\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>

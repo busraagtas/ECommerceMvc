@@ -1,6 +1,6 @@
 ﻿@model List<ECommerceMvcSite.Models.Order>
 
-<h2>Siparişlerim</h2>
+<h2 class="mb-4">@(ViewBag.Baslik ?? "Siparişlerim")</h2>
 
 @if (Model == null || !Model.Any())
 {
@@ -8,46 +8,56 @@
 }
 else
 {
-    foreach (var order in Model)
-    {
-        <p style="color:red">Debug: OrderId = @order.Id, Cancelled = @order.IsCancelled</p>
-        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
-            <p><strong>Tarih:</strong> @order.OrderDate.ToString("dd.MM.yyyy HH:mm")</p>
-            <p><strong>Kullanıcı Email:</strong> @order.UserEmail</p>
+    <div class="d-flex flex-column gap-4">
+        @foreach (var order in Model)
+        {
+            <div class="card shadow-sm p-4 border rounded">
+                <h5 class="mb-3 text-primary">📦 Sipariş No: @order.Id | <span class="badge bg-info text-dark">@order.Status</span></h5>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ürün</th>
-                        <th>Fotoğraf</th>
-                        <th>Adet</th>
-                    </tr>
-                </thead>
-                <tbody>
+                <div class="mb-2"><strong>Tarih:</strong> @order.OrderDate.ToString("dd.MM.yyyy HH:mm")</div>
+                <div class="mb-2"><strong>Kullanıcı:</strong> @order.UserEmail</div>
+                <div class="mb-2">
+                    <strong>Durum:</strong>
+                    @if (order.IsCancelled)
+                    {
+                        <span class="badge bg-danger">İptal Edilmiş ❌</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Aktif ✅</span>
+                    }
+                </div>
+
+                <div class="d-flex flex-wrap gap-3 mt-4">
                     @foreach (var item in order.Items)
                     {
-                        <tr>
-                            <td>@item.Product.Name</td>
-                            <td>
-                                <img src="@Url.Content(item.Product.ImageUrl)" alt="@item.Product.Name" width="100" />
-                            </td>
-                            <td>@item.Quantity</td>
-                        </tr>
+                        <div class="border rounded p-3 d-flex flex-column align-items-center" style="width: 180px;">
+                            <img src="@Url.Content(item.Product.ImageUrl ?? "~/Images/default.png")"
+                                 alt="@item.Product.Name"
+                                 style="width: 100%; height: 120px; object-fit: contain;" />
+
+                            <div class="text-center mt-2">
+                                <strong>@item.Product.Name</strong><br />
+                                <small>Adet: @item.Quantity</small><br />
+                                <small class="text-success fw-bold">@item.Price.ToString("N2") ₺</small>
+                            </div>
+                        </div>
                     }
-                </tbody>
-            </table>
+                </div>
 
-            <p><strong>İptal Durumu:</strong> @(order.IsCancelled ? "İptal Edilmiş" : "Aktif")</p>
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <strong class="fs-5 text-dark">Toplam: @order.TotalPrice.ToString("N2") ₺</strong>
 
-            @if (!order.IsCancelled)
-            {
-                <form action="@Url.Action("IptalEt", "Order")" method="post" style="margin-top:10px;">
-                    @Html.Hidden("orderId", order.Id)
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bu siparişi iptal etmek istediğinizden emin misiniz?');">
-                        İptal Et
-                    </button>
-                </form>
-            }
-        </div>
-    }
+                    @if (!order.IsCancelled)
+                    {
+                        <form action="@Url.Action("IptalEt", "Order")" method="post" onsubmit="return confirm('Bu siparişi iptal etmek istediğinizden emin misiniz?');">
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("orderId", order.Id)
+                            <button type="submit" class="btn btn-danger">İptal Et</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
 }

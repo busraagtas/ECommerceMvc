@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.IO;
+using System.Collections.Generic;
 
 
 public class AdminController : Controller
@@ -70,21 +71,24 @@ public class AdminController : Controller
         return View(products); // Views/Admin/ProductList.cshtml
     }
 
-    // Siparişlerin görüntülenmesi
     public ActionResult OrderList()
     {
         if (!IsAdmin()) return RedirectToAction("Login", "Account");
 
-        var orders = db.Orders.Include(o => o.Items).ToList();
+        var orders = db.Orders
+            .Include(o => o.Items.Select(i => i.Product)) // Ürünleri de dahil et
+            .ToList();
 
-        // Her bir siparişin TotalPrice değerini hesapla
         foreach (var order in orders)
         {
-            order.TotalPrice = order.Items.Sum(item => item.Quantity * item.Price);
+            // Eğer OrderItem içinde Price varsa oradan al, yoksa Product.Price'tan al
+            order.TotalPrice = order.Items.Sum(item =>
+                item.Price > 0 ? item.Quantity * item.Price : item.Quantity * item.Product.Price);
         }
 
-        return View(orders); // Siparişleri ve TotalPrice'ı View'a gönder
+        return View(orders);
     }
+
     // Siparişi onaylama
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -146,7 +150,7 @@ public class AdminController : Controller
             TempData["Message"] = "Sipariş onaylandı ancak mail gönderilemedi: " + ex.Message;
         }
 
-        return RedirectToAction("ProductList");
+        return RedirectToAction("OrderList");
 
 
     }
@@ -221,13 +225,30 @@ public class AdminController : Controller
     public ActionResult CancelOrderByAdmin(int orderId)
     {
         var order = db.Orders.Include(o => o.Items).FirstOrDefault(o => o.Id == orderId);
+
         if (order != null && order.Status == "Hazırlanıyor")
         {
-            order.Status = "Satıcı tarafından iptal edildi";
+            // 1. Yeni CancelledOrder kaydı oluştur
+            var cancelledOrder = new CancelledOrder
+            {
+                UserEmail = order.UserEmail,
+                CancelDate = DateTime.Now,
+                Status = "İptal Edildi",
+                Items = new List<OrderItem>()  // bu boş da olabilir, EF zaten ilişkilendirir
+            };
 
+            db.CancelledOrders.Add(cancelledOrder);
+            db.SaveChanges(); // ID burada oluşur
+
+            // 2. Order statusünü güncelle
+            order.Status = "Satıcı tarafından iptal edildi";
+            order.IsCancelled = true;
+
+
+            // 3. Her OrderItem'a CancelledOrderId ata
             foreach (var item in order.Items)
             {
-                item.CancelledOrderId = order.Id;
+                item.CancelledOrderId = cancelledOrder.Id;
                 db.Entry(item).State = EntityState.Modified;
             }
 
@@ -237,6 +258,8 @@ public class AdminController : Controller
 
         return RedirectToAction("OrderList");
     }
+
+
     public ActionResult DeleteProduct(int id)
     {
         if (!IsAdmin()) return RedirectToAction("Login", "Account");

@@ -23,5 +23,23 @@ namespace ECommerceMvcSite.Controllers
             return View("Index", products); // aynı Index view'ını kullanabilirsin
         }
 
+
+        public ActionResult Details(int id)
+        {
+            var product = db.Products.Include("Category").FirstOrDefault(p => p.Id == id);
+            if (product == null) return HttpNotFound();
+
+            var related = db.Products
+                .Where(p => p.CategoryId == product.CategoryId && p.Id != product.Id)
+                .ToList();
+
+            ViewBag.RelatedProducts = related;
+
+            return View(product);
+        }
+
+
+
+
     }
 }

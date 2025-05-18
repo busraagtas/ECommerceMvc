@@ -12,7 +12,6 @@
         </ol>
 
         <div class="carousel-inner">
-
             <!-- 1. Video Slide -->
             <div class="carousel-item active" data-interval="4000">
                 <video class="d-block w-100" autoplay muted loop playsinline>
@@ -55,41 +54,73 @@
         </a>
     </div>
 }
-div class="category-section">
+
 <h3>Kategoriler</h3>
-<div class="row">
-    @foreach (var category in ViewBag.Categories)
-    {
-        var imageUrl = string.IsNullOrEmpty(category.ImageUrl) ? Url.Content("~/Content/CategoryImages/Eğitici Oyuncaklar.jpg") : Url.Content(category.ImageUrl);
-        <div class="col-md-3 category-item">
-            <a href="@Url.Action("ListByCategory", "Products", new { categoryId = category.Id })">
-                <img src="@imageUrl" alt="@category.Name" class="img-responsive" />
-                <h4>@category.Name</h4>
-            </a>
-        </div>
-    }
+<div id="categoryCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        @{
+            var categories = ViewBag.Categories as IEnumerable<dynamic>;
+            var categoryList = categories?.ToList() ?? new List<dynamic>();
+            int total = categoryList.Count;
+            int itemsPerSlide = 4;
+        }
 
+        @for (int i = 0; i < total; i += itemsPerSlide)
+        {
+            <div class="carousel-item @(i == 0 ? "active" : "")">
+                <div class="row g-2">
+                    @for (int j = i; j < i + itemsPerSlide && j < total; j++)
+                    {
+                        var category = categoryList[j];
+                        var imageUrl = string.IsNullOrEmpty(category.ImageUrl)
+                            ? Url.Content("~/Content/CategoryImages/Eğitici Oyuncaklar.jpg")
+                            : Url.Content(category.ImageUrl);
+                        var id = category.GetType().GetProperty("Id")?.GetValue(category, null);
+                        <div class="col-sm-6 col-md-3 category-item">
+                            <a href="@Url.Action("ListByCategory", "Products", new { categoryId = id })">
+                                <img src="@imageUrl" alt="@category.Name" />
+                                <h4>@category.Name</h4>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <a class="carousel-control-prev" href="#categoryCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Önceki</span>
+    </a>
+    <a class="carousel-control-next" href="#categoryCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Sonraki</span>
+    </a>
 </div>
-<style>
-    .category-section {
-        margin-top: 30px;
-    }
 
+<style>
     .category-item {
         text-align: center;
         margin-bottom: 20px;
     }
 
         .category-item img {
-            max-width: 100%;
-            height: 150px;
+            width: 100%;
+            height: 220px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
         }
+
+            .category-item img:hover {
+                transform: scale(1.05);
+            }
 
         .category-item h4 {
             margin-top: 10px;
+            font-size: 1.2rem;
         }
 </style>
 
@@ -119,22 +150,17 @@ div class="category-section">
     </div>
 </div>
 
-<!-- JS: jQuery ve Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- jQuery ve Bootstrap -->
+<!-- JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     $(document).ready(function () {
-        // Carousel başlat
         $('#mainCarousel').carousel({
-            interval: false, // Bootstrap kendi geçiş yapmasın
+            interval: false,
             ride: false
         });
 
-        // Otomatik geçiş için kendi zamanlayıcımız
         let currentIndex = 0;
         const totalItems = $('.carousel-item').length;
 
@@ -144,12 +170,14 @@ div class="category-section">
                 currentIndex = 0;
             }
             $('#mainCarousel').carousel(currentIndex);
-        }, 4000); // Her 4 saniyede bir geçiş
-    });
-</script>
+        }, 4000);
 
-<script>
-    // Sayfa yüklendikten sonra slider'ı çalıştır
+        $('#categoryCarousel').carousel({
+            interval: 5000,
+            ride: 'carousel'
+        });
+    });
+
     window.addEventListener("load", function () {
         setTimeout(function () {
             $('#mainCarousel').carousel({
@@ -161,38 +189,22 @@ div class="category-section">
 </script>
 
 <style>
-    .hero-slider {
+    .hero-slider,
+    .hero-slider .carousel-inner,
+    .hero-slider .carousel-item,
+    .hero-slider .carousel-item video,
+    #mainCarousel,
+    #mainCarousel .carousel-item,
+    #mainCarousel video {
         height: 100vh;
-        position: relative;
-        z-index: 0;
+        object-fit: cover;
     }
-
-        .hero-slider .carousel-inner,
-        .hero-slider .carousel-item,
-        .hero-slider .carousel-item video {
-            height: 100vh;
-            object-fit: cover;
-        }
-
-    #mainCarousel {
-        height: 100vh;
-    }
-
-        #mainCarousel .carousel-item {
-            height: 100vh;
-        }
-
-        #mainCarousel video {
-            height: 100vh;
-            width: 100%;
-            object-fit: cover;
-        }
 
     .homepage-container {
         margin-top: 0;
         padding-top: 0;
         background-color: white;
-        z-index: 1;
         position: relative;
+        z-index: 1;
     }
 </style>

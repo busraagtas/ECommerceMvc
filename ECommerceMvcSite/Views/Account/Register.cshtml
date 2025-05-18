@@ -4,7 +4,7 @@
     ViewBag.Title = "Kayıt Ol";
 }
 
-<h2>Kayıt Ol</h2>
+<h2 class="text-center">Kayıt Ol</h2>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post))
 {
@@ -42,4 +42,9 @@
 
     <br />
     <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+
+    <div class="text-center mt-4">
+        <p>Zaten hesabın var mı?</p>
+        <a href="@Url.Action("Login", "Account")" class="btn btn-outline-success">Giriş Yap</a>
+    </div>
 }

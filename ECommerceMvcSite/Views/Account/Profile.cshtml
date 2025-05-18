@@ -9,14 +9,15 @@
 <div class="profile-container">
     <div class="profile-menu">
         <ul>
-            <li><a href="@Url.Action("MyOrders", "Account")">Siparişlerim</a></li>
-            <li><a href="@Url.Action("ConfirmedOrders", "Account")">Onaylanan Siparişlerim</a></li>
-            <li><a href="@Url.Action("CancelledOrders", "Account")">İptal Edilen Siparişlerim</a></li>
-            <li><a href="@Url.Action("BizeUlasin", "Home")">Bize Ulaşın</a></li>
-            <li><a href="@Url.Action("Settings", "Account")">Ayarlar</a></li>
-            <li><a href="@Url.Action("Logout", "Account")">Çıkış Yap</a></li>
-        </ul>
+            <ul>
+                <li><a href="@Url.Action("MyOrders", "Account", new { tab = "hazırlanıyor" })">Siparişlerim</a></li>
+                <li><a href="@Url.Action("BizeUlasin", "Home")">Bize Ulaşın</a></li>
+                <li><a href="@Url.Action("Settings", "Account")">Ayarlar</a></li>
+                <li><a href="@Url.Action("Logout", "Account")">Çıkış Yap</a></li>
+            </ul>
+
     </div>
+
 
     <div class="profile-details">
         <h3>Hesap Bilgileriniz</h3>
