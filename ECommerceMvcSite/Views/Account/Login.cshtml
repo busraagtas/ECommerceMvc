@@ -8,6 +8,23 @@
 {
     <div style="color:red" class="text-center">@ViewBag.Error</div>
 }
+@if (TempData["PasswordChanged"] != null)
+{
+    <div class="alert alert-success">@TempData["PasswordChanged"]</div>
+}
+@if (TempData["EmailChanged"] != null)
+{
+    <div class="alert alert-success">@TempData["EmailChanged"]</div>
+}
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger">@ViewBag.Message</div>
+}
+@if (TempData["UpdateMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["UpdateMessage"]</div>
+}
+
 
 @using (Html.BeginForm("Login", "Account", FormMethod.Post))
 {

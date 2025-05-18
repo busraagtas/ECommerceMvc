@@ -68,13 +68,18 @@
     </div>
     <button type="submit" class="btn btn-success">Adresi Güncelle</button>
 }
+<h2>Telefon Numarası Güncelle</h2>
 
-@if (ViewBag.AddressMessage != null)
+@using (Html.BeginForm("UpdatePhoneNumber", "Account", FormMethod.Post))
 {
-    <div class="alert alert-info mt-3">@ViewBag.AddressMessage</div>
+    <div class="form-group">
+        <label>Telefon Numarası</label>
+        <input type="text" name="newPhoneNumber" class="form-control" value="@Model.PhoneNumber" />
+    </div>
+    <button type="submit" class="btn btn-primary">Telefon Numarasını Güncelle</button>
 }
-<div class="form-group">
-    <label>Telefon Numarası</label>
-    <input type="text" name="newPhoneNumber" class="form-control" value="@Model.PhoneNumber" />
-</div>
-<button type="submit" class="btn btn-primary">Telefon Numarası Güncelle</button>
+
+@if (ViewBag.PhoneMessage != null)
+{
+    <div class="alert alert-info mt-3">@ViewBag.PhoneMessage</div>
+}

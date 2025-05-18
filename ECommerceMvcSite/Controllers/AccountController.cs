@@ -242,12 +242,10 @@ namespace ECommerceMvcSite.Controllers
 
             return RedirectToAction("Login", "Account");
         }
-
-
         [HttpPost]
         public ActionResult UpdateUserInfo(User updatedUser)
         {
-            var currentUserEmail = Session["Email"]?.ToString();
+            var currentUserEmail = Session["UserEmail"]?.ToString();
             if (currentUserEmail == null)
             {
                 return RedirectToAction("Login", "Account");
@@ -258,24 +256,57 @@ namespace ECommerceMvcSite.Controllers
                 var user = db.Users.FirstOrDefault(u => u.Email == currentUserEmail);
                 if (user != null)
                 {
-                    user.FirstName = updatedUser.FirstName;
-                    user.LastName = updatedUser.LastName;
-                    user.Email = updatedUser.Email;
+                    bool emailChanged = user.Email != updatedUser.Email;
+                    bool firstNameSame = user.FirstName == updatedUser.FirstName;
+                    bool lastNameSame = user.LastName == updatedUser.LastName;
+                    bool nameChanged = !firstNameSame || !lastNameSame;
 
-                    db.SaveChanges();
+                    if (!emailChanged)
+                    {
+                        // Email değişmemişse:
+                        if (firstNameSame && lastNameSame)
+                        {
+                            ViewBag.Message = "Ad veya soyad eskisiyle aynı olamaz, lütfen farklı bir değer girin.";
+                            return View("Settings", user);
+                        }
+                        else
+                        {
+                            // Sadece ad/soyad değiştiyse ama email aynı
+                            user.FirstName = updatedUser.FirstName;
+                            user.LastName = updatedUser.LastName;
 
-                    ViewBag.Message = "Bilgileriniz başarıyla güncellendi.";
-                    return View("Settings", user);
+                            db.SaveChanges();
+
+                            Session.Clear();
+                            TempData["UpdateMessage"] = "Bilgileriniz başarıyla güncellendi. Lütfen tekrar giriş yapın.";
+                            return RedirectToAction("Login", "Account");
+                        }
+                    }
+                    else
+                    {
+                        // Email değiştiyse, ad soyad farketmez, güncelle ve çıkış yap
+                        user.FirstName = updatedUser.FirstName;
+                        user.LastName = updatedUser.LastName;
+                        user.Email = updatedUser.Email;
+
+                        db.SaveChanges();
+
+                        Session.Clear();
+                        TempData["UpdateMessage"] = "Bilgileriniz başarıyla güncellendi. Lütfen tekrar giriş yapın.";
+                        return RedirectToAction("Login", "Account");
+                    }
                 }
             }
 
             ViewBag.Message = "Bir hata oluştu.";
             return View("Settings", updatedUser);
         }
+
+
         [HttpPost]
         public ActionResult ChangePassword(string oldPassword, string newPassword, string confirmPassword)
         {
-            var currentUserEmail = Session["Email"]?.ToString();
+            var currentUserEmail = Session["UserEmail"]?.ToString();
             if (currentUserEmail == null)
                 return RedirectToAction("Login", "Account");
 
@@ -289,7 +320,11 @@ namespace ECommerceMvcSite.Controllers
                     return View("Settings", user);
                 }
 
-                if (user.Password != oldPassword) // Şifreyi hash'liyorsan burada hash karşılaştırması yapılmalı
+                // ✅ Şifre karşılaştırmaları hashlenmiş şekilde yapılmalı
+                string hashedOldPassword = HashPassword(oldPassword);
+                string hashedNewPassword = HashPassword(newPassword);
+
+                if (user.Password != hashedOldPassword)
                 {
                     ViewBag.PasswordMessage = "Eski şifre yanlış.";
                     return View("Settings", user);
@@ -301,18 +336,26 @@ namespace ECommerceMvcSite.Controllers
                     return View("Settings", user);
                 }
 
-                user.Password = newPassword;
+                if (hashedOldPassword == hashedNewPassword)
+                {
+                    ViewBag.PasswordMessage = "Yeni şifre, eski şifreyle aynı olamaz.";
+                    return View("Settings", user);
+                }
+
+                user.Password = hashedNewPassword;
                 db.SaveChanges();
 
-                ViewBag.PasswordMessage = "Şifreniz başarıyla güncellendi.";
-                return View("Settings", user);
+                Session.Clear();
+                TempData["PasswordChanged"] = "Şifreniz başarıyla değiştirildi. Lütfen tekrar giriş yapın.";
+                return RedirectToAction("Login", "Account");
             }
         }
+
 
         [HttpPost]
         public ActionResult UpdateAddress(string newAddress)
         {
-            var currentUserEmail = Session["Email"]?.ToString();
+            var currentUserEmail = Session["UserEmail"]?.ToString();
             if (currentUserEmail == null)
                 return RedirectToAction("Login", "Account");
 
@@ -331,6 +374,26 @@ namespace ECommerceMvcSite.Controllers
                 ViewBag.AddressMessage = "Adres başarıyla güncellendi.";
                 return View("Settings", user);
             }
+        }
+        [HttpPost]
+        public ActionResult UpdatePhoneNumber(string newPhoneNumber)
+        {
+            var email = Session["UserEmail"]?.ToString();
+            if (email == null)
+                return RedirectToAction("Login", "Account");
+
+            var user = db.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                ViewBag.PhoneMessage = "Kullanıcı bulunamadı.";
+                return View("Settings", user);
+            }
+
+            user.PhoneNumber = newPhoneNumber;
+            db.SaveChanges();
+
+            ViewBag.PhoneMessage = "Telefon numarası başarıyla güncellendi.";
+            return View("Settings", user);
         }
 
 
