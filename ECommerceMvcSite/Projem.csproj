@@ -393,6 +393,7 @@
     <Content Include="Views\Message\Messages.cshtml" />
     <Content Include="Views\Message\Send.cshtml" />
     <Content Include="Views\Message\MyMessages.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -40,7 +40,9 @@
     <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
     <br />
     <button type="submit" class="btn btn-success">Giriş Yap</button>
-
+    <div class="text-center mt-2">
+        <a href="@Url.Action("ForgotPassword", "Account")">Şifremi Unuttum</a>
+    </div>
     <div class="text-center mt-4">
         <p>Hesabın yok mu?</p>
         <a href="@Url.Action("Register", "Account")" class="btn btn-outline-primary">Hemen Kaydol</a>

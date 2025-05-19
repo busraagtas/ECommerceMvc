@@ -400,6 +400,51 @@ namespace ECommerceMvcSite.Controllers
             ViewBag.PhoneMessage = "Telefon numarası başarıyla güncellendi.";
             return View("Settings", user);
         }
+        // GET: /Account/ForgotPassword
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        // POST: /Account/ForgotPassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                ViewBag.Error = "Lütfen e-posta adresinizi girin.";
+                return View();
+            }
+
+            var user = db.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                ViewBag.Error = "Bu e-posta adresine kayıtlı kullanıcı bulunamadı.";
+                return View();
+            }
+
+            // Burada basit olarak kullanıcıya yeni bir şifre veriyoruz.
+            // Daha gelişmiş yöntemler: mail ile sıfırlama linki gönderme
+            string newPassword = GenerateRandomPassword();
+            user.Password = HashPassword(newPassword);
+            db.SaveChanges();
+
+            ViewBag.Message = $"Yeni şifreniz: {newPassword} (Lütfen giriş yaptıktan sonra şifrenizi değiştirin.)";
+
+            // İstersen e-posta gönderme kodu da buraya eklenebilir.
+
+            return View();
+        }
+
+        // Yardımcı metod: Rastgele şifre üret
+        private string GenerateRandomPassword(int length = 8)
+        {
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            Random random = new Random();
+            return new string(Enumerable.Repeat(valid, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
 
 
     }
