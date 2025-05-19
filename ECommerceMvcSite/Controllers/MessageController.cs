@@ -146,7 +146,7 @@ public class MessageController : BaseController
         {
             var fromAddress = new MailAddress("masakioyuncak@gmail.com", "Masakı Oyuncak");
             var toAddress = new MailAddress(RecipientEmail);
-            const string fromPassword = "fwpx nvmj caja anop"; // ✅ Gmail uygulama şifresi
+            const string fromPassword = "oypp wvsd ipyk whlt"; // ✅ Gmail uygulama şifresi
             const string subject = "Mesajınıza Yanıt Geldi";
             string body = $"Merhaba,\n\nMesajınıza gelen yanıt:\n\n{AdminResponse}\n\nMasakı Oyuncak İyi Günler Diler!";
 
