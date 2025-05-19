@@ -11,9 +11,10 @@ using System.Net.Mail;
 using System.Web;
 using System.IO;
 using System.Collections.Generic;
+using ECommerceMvcSite.Controllers;
 
 
-public class AdminController : Controller
+public class AdminController : BaseController
 {
     private MyDbContext db = new MyDbContext();
 

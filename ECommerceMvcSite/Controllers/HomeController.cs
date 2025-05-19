@@ -5,7 +5,7 @@ using ECommerceMvcSite.Models;
 
 namespace ECommerceMvcSite.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private MyDbContext _context = new MyDbContext();
 
@@ -16,6 +16,7 @@ namespace ECommerceMvcSite.Controllers
             ViewBag.Categories = categories;
             return View(products);
         }
+
         public ActionResult Hakkimizda()  
         {
             ViewBag.Message = "Biz kimiz? Neler yapıyoruz?";
@@ -52,7 +53,8 @@ namespace ECommerceMvcSite.Controllers
                 RecipientEmail = userEmail, // Cevap bu maile gitsin
                 UserId = userId.Value,
                 Content = message,
-                SentAt = DateTime.Now
+                SentAt = DateTime.Now,
+                IsRead = false
             };
 
             _context.Messages.Add(newMessage);

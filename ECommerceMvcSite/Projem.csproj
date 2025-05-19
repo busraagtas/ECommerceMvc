@@ -119,6 +119,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -243,6 +244,10 @@
     <Compile Include="Migrations\202505182027319_AddMessageTable.cs" />
     <Compile Include="Migrations\202505182027319_AddMessageTable.Designer.cs">
       <DependentUpon>202505182027319_AddMessageTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505190930160_AddIsReadToMessages.cs" />
+    <Compile Include="Migrations\202505190930160_AddIsReadToMessages.Designer.cs">
+      <DependentUpon>202505190930160_AddIsReadToMessages.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -484,6 +489,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202505182027319_AddMessageTable.resx">
       <DependentUpon>202505182027319_AddMessageTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505190930160_AddIsReadToMessages.resx">
+      <DependentUpon>202505190930160_AddIsReadToMessages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

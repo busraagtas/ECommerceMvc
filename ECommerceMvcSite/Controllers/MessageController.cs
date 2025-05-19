@@ -5,8 +5,9 @@ using System.Net.Mail;
 using System.Net;
 using System.Web.Mvc;
 using ECommerceMvcSite.Models;
+using ECommerceMvcSite.Controllers;
 
-public class MessageController : Controller
+public class MessageController : BaseController
 {
     private MyDbContext db = new MyDbContext();
 
@@ -54,6 +55,16 @@ public class MessageController : Controller
         {
             return RedirectToAction("Login", "Account");
         }
+        var unreadMessages = db.Messages
+       .Where(m => m.UserId == userId && !m.IsRead && !string.IsNullOrEmpty(m.AdminResponse))
+       .ToList();
+
+        // Mesajları okundu olarak işaretle
+        foreach (var message in unreadMessages)
+        {
+            message.IsRead = true;
+        }
+        db.SaveChanges();
 
         var messages = db.Messages.Where(m => m.UserId == userId).OrderByDescending(m => m.SentAt).ToList();
         return View(messages);
@@ -129,7 +140,7 @@ public class MessageController : Controller
 
         if (UserId.HasValue)
             message.UserId = UserId.Value;
-
+        message.IsRead = false;
         db.SaveChanges();
         try
         {
@@ -165,7 +176,6 @@ public class MessageController : Controller
             TempData["Error"] = "Mail gönderilemedi: " + ex.Message;
         }
 
-
         return RedirectToAction("Index");
     }
  
@@ -195,7 +205,11 @@ public class MessageController : Controller
         var message = db.Messages.Find(Id);
         if (message == null)
             return HttpNotFound();
-
+        if (message != null && !message.IsRead)
+        {
+            message.IsRead = true;  // artık kullanıcı mesajı okudu
+            db.SaveChanges();
+        }
         return View(message);
     }
 

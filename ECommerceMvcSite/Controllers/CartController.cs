@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace ECommerceMvcSite.Controllers
 {
-    public class CartController : Controller
+    public class CartController : BaseController
     {
         private MyDbContext db = new MyDbContext();
 

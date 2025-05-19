@@ -19,5 +19,7 @@ namespace ECommerceMvcSite.Models
         public string AdminResponse { get; set; } // Adminin cevabı
         public DateTime? ResponseDate { get; set; }
         public string RecipientEmail { get; set; }
+        public bool IsRead { get; set; } = false;
+
     }
 }

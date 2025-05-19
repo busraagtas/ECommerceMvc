@@ -4,7 +4,7 @@ using ECommerceMvcSite.Models;
 
 namespace ECommerceMvcSite.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
         private MyDbContext db = new MyDbContext();
 

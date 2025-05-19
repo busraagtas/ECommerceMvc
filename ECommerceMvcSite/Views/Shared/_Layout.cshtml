@@ -114,7 +114,26 @@
                     }
                     @if (Session["UserRole"] != null && (Session["UserRole"].ToString() == "User" || Session["UserRole"].ToString() == "Admin"))
                     {
-                        <li><a href="@Url.Action("Messages", "Message")">Mesajlar</a></li>
+                        <li>
+                            <a href="@Url.Action("Messages", "Message")" style="position: relative;">
+                                Mesajlar
+                                @if (ViewBag.UnreadMessageCount != null && (int)ViewBag.UnreadMessageCount > 0)
+                                {
+                                    <span style="
+                    position: absolute;
+                    top: -5px;
+                    right: -10px;
+                    background: red;
+                    color: white;
+                    border-radius: 50%;
+                    padding: 2px 7px;
+                    font-size: 12px;
+                    font-weight: bold;">
+                                        @ViewBag.UnreadMessageCount
+                                    </span>
+                                }
+                            </a>
+                        </li>
                     }
 
                 </ul>

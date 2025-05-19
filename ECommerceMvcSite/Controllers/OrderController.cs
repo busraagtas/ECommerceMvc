@@ -9,7 +9,7 @@ using System.Net;
 
 namespace ECommerceMvcSite.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : BaseController
     {
         private readonly MyDbContext db = new MyDbContext();
 

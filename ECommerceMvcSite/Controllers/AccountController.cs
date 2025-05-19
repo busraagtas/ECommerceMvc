@@ -6,7 +6,7 @@ using ECommerceMvcSite.Models;
 
 namespace ECommerceMvcSite.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private MyDbContext db = new MyDbContext();
 

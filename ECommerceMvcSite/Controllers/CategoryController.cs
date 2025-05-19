@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace ECommerceMvcSite.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly MyDbContext _context;
 
