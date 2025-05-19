@@ -112,6 +112,11 @@
                         <li><a href="@Url.Action("ProductList", "Admin")">Admin Paneli</a></li>
                         <li>@Html.ActionLink("Siparişler", "OrderList", "Admin")</li>
                     }
+                    @if (Session["UserRole"] != null && (Session["UserRole"].ToString() == "User" || Session["UserRole"].ToString() == "Admin"))
+                    {
+                        <li><a href="@Url.Action("Messages", "Message")">Mesajlar</a></li>
+                    }
+
                 </ul>
             </nav>
 

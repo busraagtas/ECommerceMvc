@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using ECommerceMvcSite.Models;
 
@@ -34,19 +35,34 @@ namespace ECommerceMvcSite.Controllers
         }
 
         [HttpPost]
-        public ActionResult Contact(string name, string email, string message)
+        [ValidateAntiForgeryToken]
+        public ActionResult Iletisim(string name, string message)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(message))
             {
-                // Burada e-posta gönderme işlemi yapılabilir veya formu veritabanına kaydedebilirsiniz
-                ViewBag.Message = "Mesajınız başarıyla gönderildi!";
+                ViewBag.Message = "Lütfen tüm alanları doldurduğunuzdan emin olun!";
                 return View();
             }
+            var userEmail = Session["UserEmail"] as string;
+            var userId = Session["UserId"] as int?;
+            var newMessage = new Message
+            {
+                UserName = name,
+                UserEmail = userEmail,
+                RecipientEmail = userEmail, // Cevap bu maile gitsin
+                UserId = userId.Value,
+                Content = message,
+                SentAt = DateTime.Now
+            };
 
-            // Hatalı giriş durumunda mesaj
-            ViewBag.Message = "Lütfen tüm alanları doldurduğunuzdan emin olun!";
+            _context.Messages.Add(newMessage);
+            _context.SaveChanges();
+
+            ViewBag.Message = "Mesajınız başarıyla gönderildi!";
             return View();
         }
+
+
         public ActionResult BizeUlasin()
         {
             // Bize ulaşın sayfasına giden kullanıcıyı iletişim sayfasına yönlendir

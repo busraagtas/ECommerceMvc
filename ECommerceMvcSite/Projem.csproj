@@ -122,6 +122,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -239,12 +240,17 @@
     <Compile Include="Migrations\202505171124535_AddImageUrlToCategory.Designer.cs">
       <DependentUpon>202505171124535_AddImageUrlToCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202505182027319_AddMessageTable.cs" />
+    <Compile Include="Migrations\202505182027319_AddMessageTable.Designer.cs">
+      <DependentUpon>202505182027319_AddMessageTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\ApprovedOrder.cs" />
     <Compile Include="Models\CancelledOrder.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\MyDbContext.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItem.cs" />
@@ -376,6 +382,12 @@
     <Content Include="Views\Category\Edit.cshtml" />
     <Content Include="Views\Category\CategoryMenu.cshtml" />
     <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Message\Details.cshtml" />
+    <Content Include="Views\Message\Reply.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Message\Messages.cshtml" />
+    <Content Include="Views\Message\Send.cshtml" />
+    <Content Include="Views\Message\MyMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -469,6 +481,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202505171124535_AddImageUrlToCategory.resx">
       <DependentUpon>202505171124535_AddImageUrlToCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505182027319_AddMessageTable.resx">
+      <DependentUpon>202505182027319_AddMessageTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
