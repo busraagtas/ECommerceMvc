@@ -34,23 +34,29 @@ namespace ECommerceMvcSite.Controllers
             ViewBag.Message = "Bize ulaşın!";
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Iletisim(string name, string message)
         {
+            var userId = Session["UserId"] as int?;
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Account", new { ReturnUrl = Url.Action("Iletisim", "Home") });
+            }
+
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(message))
             {
                 ViewBag.Message = "Lütfen tüm alanları doldurduğunuzdan emin olun!";
                 return View();
             }
+
             var userEmail = Session["UserEmail"] as string;
-            var userId = Session["UserId"] as int?;
+
             var newMessage = new Message
             {
                 UserName = name,
                 UserEmail = userEmail,
-                RecipientEmail = userEmail, // Cevap bu maile gitsin
+                RecipientEmail = userEmail,
                 UserId = userId.Value,
                 Content = message,
                 SentAt = DateTime.Now,
@@ -63,6 +69,7 @@ namespace ECommerceMvcSite.Controllers
             ViewBag.Message = "Mesajınız başarıyla gönderildi!";
             return View();
         }
+
 
 
         public ActionResult BizeUlasin()

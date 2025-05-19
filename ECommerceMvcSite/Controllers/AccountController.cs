@@ -22,14 +22,15 @@ namespace ECommerceMvcSite.Controllers
         }
 
         // Giriş Sayfası (GET)
-        public ActionResult Login()
+        public ActionResult Login(string ReturnUrl)
         {
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
 
         // Giriş Sayfası (POST)
         [HttpPost]
-        public ActionResult Login(string email, string password)
+        public ActionResult Login(string email, string password, string ReturnUrl)
         {
             string hashedPassword = HashPassword(password);
 
@@ -64,6 +65,10 @@ namespace ECommerceMvcSite.Controllers
                 // ✅ Rolü burada belirliyoruz
                 Session["UserRole"] = user.IsAdmin ? "Admin" : "User";
 
+                if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+                {
+                    return Redirect(ReturnUrl); // Burada önceki sayfaya dönüş yapılır
+                }
                 if (user.IsAdmin)
                 {
                     return RedirectToAction("Index", "Admin");
