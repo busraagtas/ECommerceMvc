@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using ECommerceMvcSite.Models;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
-using ECommerceMvcSite.Models;
 
 namespace ECommerceMvcSite.Controllers
 {
@@ -29,7 +30,14 @@ namespace ECommerceMvcSite.Controllers
             var product = db.Products.Include("Category").FirstOrDefault(p => p.Id == id);
             if (product == null) return HttpNotFound();
 
-            var related = db.Products
+            // —— Kullanıcının baktığı ürünleri Session’da sakla ——
+            var viewed = Session["ViewedProducts"] as List<int> ?? new List<int>();
+            if (!viewed.Contains(id))
+                viewed.Add(id);
+            Session["ViewedProducts"] = viewed;
+           // ——————————————————————————————————————————————
+
+                        var related = db.Products
                 .Where(p => p.CategoryId == product.CategoryId && p.Id != product.Id)
                 .ToList();
 
@@ -38,6 +46,27 @@ namespace ECommerceMvcSite.Controllers
             return View(product);
         }
 
+        public ActionResult Recommendations()
+        {
+            // Önce baktığı ürünleri al
+            var viewed = Session["ViewedProducts"] as List<int> ?? new List<int>();
+
+            // Eğer hiç bakılan ürün yoksa boş liste döndür
+            if (!viewed.Any())
+                return PartialView("_Recommendations", new List<Product>());
+
+            // En son baktığı ürünün kategorisine bak
+            int lastId = viewed.Last();
+            var lastProduct = db.Products.Find(lastId);
+
+            // Aynı kategoriden, daha önce bakılanlar dışındaki 4 ürünü öner
+            var recs = db.Products
+                         .Where(p => p.CategoryId == lastProduct.CategoryId && !viewed.Contains(p.Id))
+                         .Take(4)
+                         .ToList();
+
+            return PartialView("_Recommendations", recs);
+        }
 
 
 

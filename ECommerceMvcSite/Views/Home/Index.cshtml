@@ -65,6 +65,8 @@
             int itemsPerSlide = 4;
         }
 
+
+
         @for (int i = 0; i < total; i += itemsPerSlide)
         {
             <div class="carousel-item @(i == 0 ? "active" : "")">
@@ -123,6 +125,8 @@
             font-size: 1.2rem;
         }
 </style>
+
+@Html.Action("Recommendations", "Products")
 
 <div class="homepage-container">
     <div class="hero" style="text-align:center; padding:50px; background-color:#f4f4f4;">
@@ -208,3 +212,33 @@
         z-index: 1;
     }
 </style>
+<div style="margin:40px auto; max-width:600px;">
+    <h3>Yapay Zeka Asistanı</h3>
+    <input id="userInput" type="text" style="width:70%; padding:8px;" placeholder="Bir soru yazın..." />
+    <button onclick="askChatbot()" style="padding:8px 15px;">Gönder</button>
+    <div id="responseArea" style="margin-top:20px; border:1px solid #ccc; padding:10px;"></div>
+</div>
+
+<script>
+    function askChatbot() {
+        var prompt = document.getElementById("userInput").value;
+        if (!prompt.trim()) return;
+
+        document.getElementById("responseArea").innerText = "Yükleniyor...";
+
+        fetch("/Chat/Ask", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'prompt=' + encodeURIComponent(prompt)
+        })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("responseArea").innerText = data.response;
+            })
+            .catch(err => {
+                document.getElementById("responseArea").innerText = "Hata: " + err;
+            });
+    }
+</script>

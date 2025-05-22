@@ -39,10 +39,12 @@
 
                         <div class="mt-auto d-flex justify-content-between">
                             <a href="@Url.Action("EditProduct", "Admin", new { id = product.Id })" class="btn btn-primary btn-sm">Düzenle</a>
-                            <form asp-action="Delete" asp-controller="Product" method="post" style="margin: 0;">
+                            @using (Html.BeginForm("DeleteProduct", "Admin", FormMethod.Post, new { onsubmit = "return confirm('Silmek istediğinizden emin misiniz?');", style = "margin: 0;" }))
+                            {
+                                @Html.AntiForgeryToken()
                                 <input type="hidden" name="id" value="@product.Id" />
-                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Silmek istediğinizden emin misiniz?');">Sil</button>
-                            </form>
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Sil</button>
+                            }
                         </div>
                     </div>
                 </div>
