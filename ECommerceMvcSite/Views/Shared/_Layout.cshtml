@@ -79,8 +79,24 @@
             color: red;
         }
     </style>
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+        /* Buraya arama çubuğunun stilini yazabilirsin */
+        #searchInput {
+            display: none;
+            transition: width 0.3s ease;
+            width: 0;
+            /* diğer stiller */
+        }
+
+            #searchInput.show {
+                display: inline-block;
+                width: 200px;
+            }
+        /* vs... */
+    </style>
 </head>
 <body>
     <header id="mainHeader">
@@ -101,16 +117,22 @@
                             @Html.Action("CategoryMenu", "Category")
                         </div>
                     </li>
+                    <li id="searchIcon" style="cursor:pointer; font-size: 24px; color: black;">
+                        <i class="fa fa-search"></i>
+                    </li>
+                    <li id="searchBoxContainer" style="display:none; margin-left: 10px;">
+                        <input type="text" id="searchBox" class="form-control" placeholder="Ürün ara..." />
+                    </li>
+
                     @if (Session["UserRole"]?.ToString() == "User")
                     {
-                        <li><a href="@Url.Action("Index", "Cart")">Sepetim</a></li>
-                        <li><a href="@Url.Action("Profile", "Account")">Profilim</a></li>
+                        <li> <a href="@Url.Action("Index", "Cart")"> Sepetim</a> </li>
+                        <li> <a href="@Url.Action("Profile", "Account")"> Profilim</a> </li>
                     }
-
                     @if (Session["UserRole"]?.ToString() == "Admin")
                     {
-                        <li><a href="@Url.Action("ProductList", "Admin")">Admin Paneli</a></li>
-                        <li>@Html.ActionLink("Siparişler", "OrderList", "Admin")</li>
+                        <li> <a href="@Url.Action("ProductList", "Admin")"> Admin Paneli</a> </li>
+                        <li>@Html.ActionLink("Siparişler", "OrderList", "Admin") </li>
                     }
                     @if (Session["UserRole"] != null && (Session["UserRole"].ToString() == "User" || Session["UserRole"].ToString() == "Admin"))
                     {
@@ -120,53 +142,50 @@
                                 @if (ViewBag.UnreadMessageCount != null && (int)ViewBag.UnreadMessageCount > 0)
                                 {
                                     <span style="
-                    position: absolute;
-                    top: -5px;
-                    right: -10px;
-                    background: red;
-                    color: white;
-                    border-radius: 50%;
-                    padding: 2px 7px;
-                    font-size: 12px;
-                    font-weight: bold;">
+                        position: absolute;
+                        top: -5px;
+                        right: -10px;
+                        background: red;
+                        color: white;
+                        border-radius: 50%;
+                        padding: 2px 7px;
+                        font-size: 12px;
+                        font-weight: bold;">
                                         @ViewBag.UnreadMessageCount
                                     </span>
                                 }
                             </a>
                         </li>
                     }
-
                 </ul>
             </nav>
 
             <div class="auth-buttons">
                 @if (Session["UserFirstName"] != null && Session["UserLastName"] != null)
                 {
-                    <span class="welcome-text">Hoş geldin, @Session["UserFirstName"] @Session["UserLastName"]</span>
+                    <span class="welcome-text"> Hoş geldin, @Session["UserFirstName"] @Session["UserLastName"] </span>
                     <div class="dropdown">
-                        <span id="menuToggle" class="dropdown-toggle user-menu-toggle">&#8942;</span>
+                        <span id="menuToggle" class="dropdown-toggle user-menu-toggle"> &#8942;</span>
                         <div id="userMenu" class="dropdown-menu" style="display: none;">
                             @if (Session["UserRole"]?.ToString() == "User")
                             {
-                                <a href="@Url.Action("Profile", "Account")">Profilim</a>
-                                <a href="@Url.Action("MyOrders", "Account")">Siparişlerim</a>
+                                <a href="@Url.Action("Profile", "Account")"> Profilim</a>
+                                <a href="@Url.Action("MyOrders", "Account")"> Siparişlerim</a>
                             }
-                            <a href="@Url.Action("Logout", "Account")">Çıkış Yap</a>
+                            <a href="@Url.Action("Logout", "Account")"> Çıkış Yap</a>
                         </div>
                     </div>
                 }
                 else
                 {
-                    <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Giriş Yap</a>
-                    <a href="@Url.Action("Register", "Account")" class="btn btn-primary" style="margin-left: 10px;">Kaydol</a>
+                    <a href="@Url.Action("Login", "Account")" class="btn btn-primary"> Giriş Yap</a>
+                    <a href="@Url.Action("Register", "Account")" class="btn btn-primary" style="margin-left: 10px;"> Kaydol</a>
                 }
             </div>
         </div>
     </header>
-
     <!-- SLIDER veya geniş içerik -->
     @RenderSection("FullWidthTop", required: false)
-
     <main>
         @if (!isHomePage)
         {
@@ -182,7 +201,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; @DateTime.Now.Year - E-Ticaret Sitesi | Tüm hakları saklıdır.</p>
+            <p> &copy; @DateTime.Now.Year - E-Ticaret Sitesi | Tüm hakları saklıdır.</p>
             <div class="social-media">
                 <a href="https://www.instagram.com/yourpage" target="_blank">
                     <img src="~/Content/insta.png" alt="Instagram" style="width: 30px; margin-right: 10px;" />
@@ -209,7 +228,6 @@
                 e.stopPropagation();
                 menu.style.display = menu.style.display === "block" ? "none" : "block";
             });
-
             document.addEventListener("click", function (e) {
                 if (!menu.contains(e.target) && !toggle.contains(e.target)) {
                     menu.style.display = "none";
@@ -230,5 +248,53 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <script>
+        $(function () {
+            // Autocomplete
+            $("#searchBox").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Products/Search',
+                        data: { term: request.term },
+                        success: function (data) {
+                            if (data.length === 0) {
+                                response([{ label: "Sonuç bulunamadı", value: "" }]);
+                            } else {
+                                response(data);
+                            }
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function (event, ui) {
+                    if (ui.item.value !== "") {
+                        window.location.href = '/Products/Details/' + ui.item.value;
+                    }
+                }
+            });
+
+            // Arama ikonuna tıklayınca arama kutusunu aç
+            $("#searchIcon").click(function () {
+                $("#searchBoxContainer").toggle();
+                $("#searchBox").focus();
+            });
+            // ENTER tuşuna basınca
+            $("#searchBox").keypress(function (e) {
+                if (e.which == 13) { // Enter tuşu kodu
+                    e.preventDefault(); // Formun submit olmasını engelle
+                    var query = $(this).val().trim();
+                    if (query.length > 0) {
+                        // Arama sonuçları sayfasına yönlendir
+                        window.location.href = '/Products/SearchResults?query=' + encodeURIComponent(query);
+                    }
+                }
+            });
+        });
+    </script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>
+
+

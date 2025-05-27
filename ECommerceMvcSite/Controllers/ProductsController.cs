@@ -67,8 +67,30 @@ namespace ECommerceMvcSite.Controllers
 
             return PartialView("_Recommendations", recs);
         }
+        [HttpGet]
+        public JsonResult Search(string term)
+        {
+            var matchingProducts = db.Products
+                .Where(p => p.Name.Contains(term))  // Baştan değil, içinde geçenleri getirir
+                .Select(p => new { label = p.Name, value = p.Id })
+                .ToList();
 
+            return Json(matchingProducts, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult SearchResults(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                // Boşsa direkt boş liste gönder
+                return View(new List<Product>());
+            }
 
+            var results = db.Products
+                .Where(p => p.Name.Contains(query))
+                .ToList();
 
+            ViewBag.Query = query;
+            return View(results); // SearchResults.cshtml dosyasına gönder
+        }
     }
 }

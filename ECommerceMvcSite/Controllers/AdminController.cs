@@ -122,7 +122,7 @@ public class AdminController : BaseController
         {
             var fromAddress = new MailAddress("masakioyuncak@gmail.com", "Masakı Oyuncak");
             var toAddress = new MailAddress(order.UserEmail);
-            const string fromPassword = "oypp wvsd ipyk whlt"; // Gmail için özel uygulama şifresi gerekir
+            const string fromPassword = "oypp wvsd ipyk whlt"; // Gmail için özel uygulama şifresi gerekir SMTP 
             const string subject = "Siparişiniz Onaylandı";
             string body = $"Merhaba,\n\n{orderId} numaralı siparişiniz onaylanmıştır. En kısa sürede hazırlanıp kargoya verilecektir.\n\nBizi tercih ettiğiniz için teşekkür ederiz.✨";
 
@@ -259,8 +259,6 @@ public class AdminController : BaseController
 
         return RedirectToAction("OrderList");
     }
-
-
     public ActionResult DeleteProduct(int id)
     {
         if (!IsAdmin()) return RedirectToAction("Login", "Account");

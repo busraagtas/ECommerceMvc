@@ -507,6 +507,7 @@
     <Content Include="Views\Message\MyMessages.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Shared\_Recommendations.cshtml" />
+    <Content Include="Views\Products\SearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
