@@ -251,6 +251,69 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
+
+
+
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: #eee;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+            .dropdown-menu.show {
+                display: block;
+            }
+    </style>
+
+    <div class="dropdown" id="categoryDropdown">
+        <button id="dropdownButton">Kategoriler</button>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="#">Kategori 1</a><br>
+            <a href="#">Kategori 2</a><br>
+            <a href="#">Kategori 3</a>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <script>
+        const dropdownButton = document.getElementById('dropdownButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        // Butona tıklayınca menü aç/kapa
+        dropdownButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Tıklamanın document click'e yayılmasını engelle
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // Sayfanın herhangi bir yerine tıklanınca menüyü kapat
+        document.addEventListener('click', () => {
+            dropdownMenu.classList.remove('show');
+        });
+
+        // Dropdown içindeki linklere tıklanırsa kapanmasın istersen bu kısmı kullanma,
+        // ya da istersen kapatabilirsin. Şimdilik kapatıyor.
+        dropdownMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+
+
+
+
+
     <script>
         $(function () {
             // Autocomplete

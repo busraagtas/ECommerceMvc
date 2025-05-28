@@ -4,46 +4,35 @@
 }
 
 @section FullWidthTop {
-    <div id="mainCarousel" class="carousel slide mb-4" data-ride="carousel">
+    <div id="mainCarousel" class="carousel slide hero-slider mb-4" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#mainCarousel" data-slide-to="1"></li>
             <li data-target="#mainCarousel" data-slide-to="2"></li>
         </ol>
-
         <div class="carousel-inner">
-            <!-- 1. Video Slide -->
-            <div class="carousel-item active" data-interval="4000">
-                <video class="d-block w-100" autoplay muted loop playsinline>
-                    <source src="@Url.Content("~/Content/slider/slide1.mp4")" type="video/mp4">
-                    Tarayıcınız video etiketini desteklemiyor.
-                </video>
-                <div class="carousel-caption d-none d-md-block">
-                    <a href="/Products" class="btn btn-success btn-lg">Şimdi İncele</a>
+            @for (int i = 1; i <= 3; i++)
+            {
+                var activeClass = i == 1 ? "active" : "";
+                <div class="carousel-item @activeClass">
+                    <video class="d-block w-100" autoplay muted loop playsinline>
+                        <source src="@Url.Content($"~/Content/slider/slide{i}.mp4")" type="video/mp4">
+                        Tarayıcınız video etiketini desteklemiyor.
+                    </video>
+                    <div class="carousel-caption d-none d-md-block">
+                        @{
+                            var buttonText = i == 1 ? "Şimdi İncele"
+                                          : i == 2 ? "Yeni Koleksiyon"
+                                          : "Fırsatları Gör";
+                            var btnClass = i == 1 ? "btn-success"
+                                         : i == 2 ? "btn-primary"
+                                         : "btn-danger";
+                        }
+                        <a href="/Products" class="btn @btnClass btn-lg">@buttonText</a>
+                    </div>
                 </div>
-            </div>
-
-            <!-- 2. Video Slide -->
-            <div class="carousel-item" data-interval="4000">
-                <video class="d-block w-100" autoplay muted loop playsinline>
-                    <source src="@Url.Content("~/Content/slider/slide2.mp4")" type="video/mp4">
-                </video>
-                <div class="carousel-caption d-none d-md-block">
-                    <a href="/Products" class="btn btn-primary btn-lg">Yeni Koleksiyon</a>
-                </div>
-            </div>
-
-            <!-- 3. Video Slide -->
-            <div class="carousel-item" data-interval="4000">
-                <video class="d-block w-100" autoplay muted loop playsinline>
-                    <source src="@Url.Content("~/Content/slider/slide3.mp4")" type="video/mp4">
-                </video>
-                <div class="carousel-caption d-none d-md-block">
-                    <a href="/Products" class="btn btn-danger btn-lg">Fırsatları Gör</a>
-                </div>
-            </div>
+            }
         </div>
-
         <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Önceki</span>
@@ -55,22 +44,19 @@
     </div>
 }
 
-<h3>Kategoriler</h3>
-<div id="categoryCarousel" class="carousel slide" data-ride="carousel">
+<h3 class="text-center mt-5">Kategoriler</h3>
+<div id="categoryCarousel" class="carousel slide mt-3" data-ride="carousel">
     <div class="carousel-inner">
         @{
-            var categories = ViewBag.Categories as IEnumerable<dynamic>;
-            var categoryList = categories?.ToList() ?? new List<dynamic>();
+            var categories = ViewBag.Categories as IEnumerable<dynamic> ?? new List<dynamic>();
+            var categoryList = categories.ToList();
             int total = categoryList.Count;
             int itemsPerSlide = 4;
         }
-
-
-
         @for (int i = 0; i < total; i += itemsPerSlide)
         {
             <div class="carousel-item @(i == 0 ? "active" : "")">
-                <div class="row g-2">
+                <div class="row">
                     @for (int j = i; j < i + itemsPerSlide && j < total; j++)
                     {
                         var category = categoryList[j];
@@ -78,9 +64,9 @@
                             ? Url.Content("~/Content/CategoryImages/Eğitici Oyuncaklar.jpg")
                             : Url.Content(category.ImageUrl);
                         var id = category.GetType().GetProperty("Id")?.GetValue(category, null);
-                        <div class="col-sm-6 col-md-3 category-item">
+                        <div class="col-6 col-md-3 category-item">
                             <a href="@Url.Action("ListByCategory", "Products", new { categoryId = id })">
-                                <img src="@imageUrl" alt="@category.Name" />
+                                <img src="@imageUrl" alt="@category.Name" class="img-fluid" />
                                 <h4>@category.Name</h4>
                             </a>
                         </div>
@@ -89,7 +75,6 @@
             </div>
         }
     </div>
-
     <a class="carousel-control-prev" href="#categoryCarousel" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Önceki</span>
@@ -100,7 +85,73 @@
     </a>
 </div>
 
+@Html.Action("Recommendations", "Products")
+
+<div class="homepage-container">
+    <div class="hero text-center py-5 bg-light">
+        <h1>Hoş Geldiniz!</h1>
+        <p>Kaliteli ürünleri en uygun fiyatlarla bulabileceğiniz e-ticaret sitemize hoş geldiniz.</p>
+        <a href="/Products" class="btn btn-success">Ürünleri Görüntüle</a>
+    </div>
+
+    <div class="features d-flex justify-content-around py-5">
+        <div class="text-center w-30">
+            <img src="~/Content/güvenli alışveriş.png" alt="Güvenli Alışveriş" style="width:80px;">
+            <h3>Güvenli Alışveriş</h3>
+            <p>256-bit SSL sertifikasıyla güvenli alışveriş.</p>
+        </div>
+        <div class="text-center w-30">
+            <img src="~/Content/destek.png" alt="Destek" style="width:80px;">
+            <h3>7/24 Destek</h3>
+            <p>Her zaman yanınızdayız.</p>
+        </div>
+        <div class="text-center w-30">
+            <img src="~/Content/hızlı teslimat.png" alt="Hızlı Teslimat" style="width:80px;">
+            <h3>Hızlı Teslimat</h3>
+            <p>Siparişleriniz aynı gün kargoda.</p>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#mainCarousel').carousel({ interval: false, ride: false });
+        $('#categoryCarousel').carousel({ interval: 5000 });
+
+        setInterval(function () {
+            const totalItems = $('#mainCarousel .carousel-item').length;
+            let currentIndex = $('#mainCarousel .carousel-item.active').index();
+            $('#mainCarousel').carousel((currentIndex + 1) % totalItems);
+        }, 4000);
+    });
+
+    window.addEventListener("load", function () {
+        setTimeout(function () {
+            $('#mainCarousel').carousel({ interval: 3000, ride: 'carousel' });
+        }, 100);
+    });
+</script>
+
+<!-- CSS -->
 <style>
+    .hero-slider, .hero-slider .carousel-inner, .hero-slider .carousel-item,
+    .hero-slider .carousel-item video, #mainCarousel video {
+        height: 100vh;
+        object-fit: cover;
+    }
+
+    .homepage-container {
+        margin-top: 0;
+        padding-top: 0;
+        background-color: white;
+        position: relative;
+        z-index: 1;
+    }
+
     .category-item {
         text-align: center;
         margin-bottom: 20px;
@@ -124,91 +175,8 @@
             margin-top: 10px;
             font-size: 1.2rem;
         }
-</style>
 
-@Html.Action("Recommendations", "Products")
-
-<div class="homepage-container">
-    <div class="hero" style="text-align:center; padding:50px; background-color:#f4f4f4;">
-        <h1>Hoş Geldiniz!</h1>
-        <p>Kaliteli ürünleri en uygun fiyatlarla bulabileceğiniz e-ticaret sitemize hoş geldiniz.</p>
-        <a href="/Products" class="btn" style="padding:10px 20px; background-color:#28a745; color:white; text-decoration:none;">Ürünleri Görüntüle</a>
-    </div>
-
-    <div class="features" style="display:flex; justify-content:space-around; padding:40px;">
-        <div style="width:30%; text-align:center;">
-            <img src="~/Content/güvenli alışveriş.png" alt="Güvenli Alışveriş" style="width:80px;">
-            <h3>Güvenli Alışveriş</h3>
-            <p>256-bit SSL sertifikasıyla güvenli alışveriş.</p>
-        </div>
-        <div style="width:30%; text-align:center;">
-            <img src="~/Content/destek.png" alt="Destek" style="width:80px;">
-            <h3>7/24 Destek</h3>
-            <p>Her zaman yanınızdayız.</p>
-        </div>
-        <div style="width:30%; text-align:center;">
-            <img src="~/Content/hızlı teslimat.png" alt="Hızlı Teslimat" style="width:80px;">
-            <h3>Hızlı Teslimat</h3>
-            <p>Siparişleriniz aynı gün kargoda.</p>
-        </div>
-    </div>
-</div>
-
-<!-- JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $('#mainCarousel').carousel({
-            interval: false,
-            ride: false
-        });
-
-        let currentIndex = 0;
-        const totalItems = $('.carousel-item').length;
-
-        setInterval(function () {
-            currentIndex++;
-            if (currentIndex >= totalItems) {
-                currentIndex = 0;
-            }
-            $('#mainCarousel').carousel(currentIndex);
-        }, 4000);
-
-        $('#categoryCarousel').carousel({
-            interval: 5000,
-            ride: 'carousel'
-        });
-    });
-
-    window.addEventListener("load", function () {
-        setTimeout(function () {
-            $('#mainCarousel').carousel({
-                interval: 3000,
-                ride: 'carousel'
-            });
-        }, 100);
-    });
-</script>
-
-<style>
-    .hero-slider,
-    .hero-slider .carousel-inner,
-    .hero-slider .carousel-item,
-    .hero-slider .carousel-item video,
-    #mainCarousel,
-    #mainCarousel .carousel-item,
-    #mainCarousel video {
-        height: 100vh;
-        object-fit: cover;
-    }
-
-    .homepage-container {
-        margin-top: 0;
-        padding-top: 0;
-        background-color: white;
-        position: relative;
-        z-index: 1;
+    .w-30 {
+        width: 30%;
     }
 </style>
