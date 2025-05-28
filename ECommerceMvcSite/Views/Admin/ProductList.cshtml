@@ -8,25 +8,28 @@
 }
 <!-- Kart Stili Ürünler -->
 <div class="container mt-4">
-    
 
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success">@TempData["SuccessMessage"]</div>
     }
 
-<div class="mb-3">
-    <a href="@Url.Action("AddProduct", "Admin")" class="btn btn-success">Yeni Ürün Ekle</a>
-    <!-- Bunu kullan -->
-    <a href="@Url.Action("Index", "Category")" class="btn btn-primary">Kategorileri Düzenle</a>
-
-</div>
+    <div class="mb-3">
+        <a href="@Url.Action("AddProduct", "Admin")" class="btn btn-success">Yeni Ürün Ekle</a>
+        <a href="@Url.Action("Index", "Category")" class="btn btn-primary">Kategorileri Düzenle</a>
+    </div>
 
     <div class="row g-4">
         @foreach (var product in Model)
         {
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card h-100 shadow-sm">
+                <div class="card h-100 shadow-sm position-relative">
+
+                    @if (product.Stock <= 5)
+                    {
+                        <div class="stock-warning-badge">⚠️ Tükenmek üzere!</div>
+                    }
+
                     <img src="@Url.Content(product.ImageUrl ?? "~/images/default.png")"
                          class="card-img-top"
                          alt="@product.Name"
@@ -50,9 +53,9 @@
                 </div>
             </div>
         }
+
     </div>
 </div>
-
 
 <style>
     .product-grid {
@@ -117,5 +120,40 @@
     .btn-sm {
         padding: 6px 12px;
         font-size: 14px;
+    }
+
+    .stock-warning-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #e74c3c;
+        color: white;
+        padding: 5px 10px;
+        font-weight: bold;
+        border-radius: 12px;
+        font-size: 12px;
+        cursor: default;
+        animation: pulse 2s infinite;
+        box-shadow: 0 0 8px rgba(231, 76, 60, 0.7);
+        user-select: none;
+        z-index: 10;
+        white-space: nowrap;
+    }
+
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 8px rgba(231, 76, 60, 0.7);
+        }
+
+        50% {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(231, 76, 60, 1);
+        }
+
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 8px rgba(231, 76, 60, 0.7);
+        }
     }
 </style>

@@ -132,6 +132,7 @@
                     @if (Session["UserRole"]?.ToString() == "Admin")
                     {
                         <li> <a href="@Url.Action("ProductList", "Admin")"> Admin Paneli</a> </li>
+                        <li> <a href="@Url.Action("SalesReport", "Admin")"> Satış Raporu</a> </li>
                         <li>@Html.ActionLink("Siparişler", "OrderList", "Admin") </li>
                     }
                     @if (Session["UserRole"] != null && (Session["UserRole"].ToString() == "User" || Session["UserRole"].ToString() == "Admin"))
@@ -296,5 +297,3 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
-
-

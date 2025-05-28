@@ -1,13 +1,28 @@
-﻿<table class="table table-bordered">
+﻿@model List<ECommerceMvcSite.Models.Order>
+
+<h2>Sipariş Listesi</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">@TempData["Message"]</div>
+}
+
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>ID</th>
             <th>Kullanıcı E-Posta</th>
             <th>Toplam Fiyat</th>
-            <th>Sipariş Durumu</th>
-            <th>Sipariş Tarihi</th>
+            <th>Durum</th>
+            <th>Tarih</th>
             <th>Ürün Görselleri</th>
             <th>İşlemler</th>
+            <th>Sipariş Detayı</th>
+
         </tr>
     </thead>
     <tbody>
@@ -19,7 +34,6 @@
                 <td>@order.TotalPrice ₺</td>
                 <td>@order.Status</td>
                 <td>@order.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
-
                 <td>
                     @if (order.Items != null)
                     {
@@ -32,24 +46,35 @@
                         }
                     }
                 </td>
-
                 <td>
-                    @using (Html.BeginForm("ApproveOrder", "Admin", FormMethod.Post))
+                    @if (order.Status == "Sipariş Onaylandı")
                     {
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="orderId" value="@order.Id" />
-                        <button type="submit" class="btn btn-success btn-sm">Siparişi Onayla</button>
+                        <span class="text-success">✅ Onaylandı</span>
                     }
-
-                    @using (Html.BeginForm("CancelOrderByAdmin", "Admin", FormMethod.Post))
+                    else if (order.Status == "Satıcı tarafından iptal edildi")
                     {
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="orderId" value="@order.Id" />
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bu siparişi iptal etmek istediğinize emin misiniz?');">Siparişi İptal Et</button>
+                        <span class="text-danger">❌ Sipariş İptal Edildi</span>
+                    }
+                    else
+                    {
+                        <form action="@Url.Action("ApproveOrder", "Admin")" method="post" style="display:inline-block;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <button type="submit" class="btn btn-success btn-sm">Siparişi Onayla</button>
+                        </form>
+
+                        <form action="@Url.Action("CancelOrderByAdmin", "Admin")" method="post" style="display:inline-block;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bu siparişi iptal etmek istediğinize emin misiniz?');">Siparişi İptal Et</button>
+                        </form>
                     }
                 </td>
-
+                <td>
+                    <a href="@Url.Action("OrderDetails", "Admin", new { id = order.Id })" class="btn btn-info btn-sm">Sipariş Detayı</a>
+                </td>
             </tr>
         }
     </tbody>
+
 </table>

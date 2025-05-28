@@ -165,19 +165,29 @@ namespace ECommerceMvcSite.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            var approvedOrderIds = db.ApprovedOrders.Select(a => a.OrderId).ToList();
+
             var confirmedOrders = db.Orders
-                .Where(o => o.UserEmail == userEmail && !o.IsCancelled)
+                .Where(o => o.UserEmail == userEmail
+                            && o.Status.ToLower() == "sipariş onaylandı"
+                            && !o.IsCancelled
+                            && approvedOrderIds.Contains(o.Id))
                 .Include(o => o.Items.Select(i => i.Product))
                 .ToList();
 
-            if (confirmedOrders == null || !confirmedOrders.Any())
+            if (!confirmedOrders.Any())
             {
                 ViewBag.Message = "Henüz onaylı siparişiniz bulunmamaktadır.";
-                return View("Confirmed", confirmedOrders);
             }
 
             return View("ConfirmedOrders", confirmedOrders);
         }
+
+
+
+
+
+
         public ActionResult CancelledOrders()
         {
             var userEmail = Session["UserEmail"]?.ToString(); // Giriş yapan kullanıcının email'i

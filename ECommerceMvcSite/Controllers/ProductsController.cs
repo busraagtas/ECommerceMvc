@@ -35,38 +35,18 @@ namespace ECommerceMvcSite.Controllers
             if (!viewed.Contains(id))
                 viewed.Add(id);
             Session["ViewedProducts"] = viewed;
-           // ——————————————————————————————————————————————
+            // ——————————————————————————————————————————————
 
-                        var related = db.Products
-                .Where(p => p.CategoryId == product.CategoryId && p.Id != product.Id)
-                .ToList();
+            var related = db.Products
+    .Where(p => p.CategoryId == product.CategoryId && p.Id != product.Id)
+    .ToList();
 
             ViewBag.RelatedProducts = related;
 
             return View(product);
         }
 
-        public ActionResult Recommendations()
-        {
-            // Önce baktığı ürünleri al
-            var viewed = Session["ViewedProducts"] as List<int> ?? new List<int>();
 
-            // Eğer hiç bakılan ürün yoksa boş liste döndür
-            if (!viewed.Any())
-                return PartialView("_Recommendations", new List<Product>());
-
-            // En son baktığı ürünün kategorisine bak
-            int lastId = viewed.Last();
-            var lastProduct = db.Products.Find(lastId);
-
-            // Aynı kategoriden, daha önce bakılanlar dışındaki 4 ürünü öner
-            var recs = db.Products
-                         .Where(p => p.CategoryId == lastProduct.CategoryId && !viewed.Contains(p.Id))
-                         .Take(4)
-                         .ToList();
-
-            return PartialView("_Recommendations", recs);
-        }
         [HttpGet]
         public JsonResult Search(string term)
         {
@@ -92,5 +72,31 @@ namespace ECommerceMvcSite.Controllers
             ViewBag.Query = query;
             return View(results); // SearchResults.cshtml dosyasına gönder
         }
+
+
+        public ActionResult Recommendations()
+        {
+            // Önce baktığı ürünleri al
+            var viewed = Session["ViewedProducts"] as List<int> ?? new List<int>();
+
+            // Eğer hiç bakılan ürün yoksa boş liste döndür
+            if (!viewed.Any())
+                return PartialView("_Recommendations", new List<Product>());
+
+            // En son baktığı ürünün kategorisine bak
+            int lastId = viewed.Last();
+            var lastProduct = db.Products.Find(lastId);
+
+            // Aynı kategoriden, daha önce bakılanlar dışındaki 4 ürünü öner
+            var recs = db.Products
+                         .Where(p => p.CategoryId == lastProduct.CategoryId && !viewed.Contains(p.Id))
+                         .Take(4)
+                         .ToList();
+
+            return PartialView("_Recommendations", recs);
+        }
+
+
+
     }
 }

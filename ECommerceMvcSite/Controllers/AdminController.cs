@@ -77,18 +77,19 @@ public class AdminController : BaseController
         if (!IsAdmin()) return RedirectToAction("Login", "Account");
 
         var orders = db.Orders
-            .Include(o => o.Items.Select(i => i.Product)) // Ürünleri de dahil et
+            .OrderByDescending(o => o.OrderDate)  // En yeni siparişler en üstte
+            .Include(o => o.Items.Select(i => i.Product))
             .ToList();
 
         foreach (var order in orders)
         {
-            // Eğer OrderItem içinde Price varsa oradan al, yoksa Product.Price'tan al
             order.TotalPrice = order.Items.Sum(item =>
                 item.Price > 0 ? item.Quantity * item.Price : item.Quantity * item.Product.Price);
         }
 
         return View(orders);
     }
+
 
     // Siparişi onaylama
     [HttpPost]
@@ -98,7 +99,8 @@ public class AdminController : BaseController
         var order = db.Orders.Include(o => o.Items).FirstOrDefault(o => o.Id == orderId);
         if (order != null)
         {
-            order.Status = "Onaylandı";
+            order.Status = "Sipariş Onaylandı";
+
             db.SaveChanges();
 
             var approvedOrder = new ApprovedOrder
@@ -110,19 +112,32 @@ public class AdminController : BaseController
 
             foreach (var item in order.Items)
             {
+                // Ürünü bul
+                var product = db.Products.FirstOrDefault(p => p.Id == item.ProductId);
+                if (product != null)
+                {
+                    product.Stock -= item.Quantity;
+                    if (product.Stock < 0)
+                        product.Stock = 0; // Negatif stok engellenir
+
+                    db.Entry(product).State = EntityState.Modified;
+                }
+
                 item.CancelledOrderId = null;
                 db.Entry(item).State = EntityState.Modified;
             }
 
             db.SaveChanges();
-            TempData["Message"] = "Sipariş onaylandı.";
+            TempData["SuccessMessage"] = "Sipariş onaylandı.";
+
         }
-       // E-posta gönder
+
+        // E-posta gönder
         try
         {
             var fromAddress = new MailAddress("masakioyuncak@gmail.com", "Masakı Oyuncak");
             var toAddress = new MailAddress(order.UserEmail);
-            const string fromPassword = "oypp wvsd ipyk whlt"; // Gmail için özel uygulama şifresi gerekir SMTP 
+            const string fromPassword = "oypp wvsd ipyk whlt"; // Gmail için özel uygulama şifresi gerekir
             const string subject = "Siparişiniz Onaylandı";
             string body = $"Merhaba,\n\n{orderId} numaralı siparişiniz onaylanmıştır. En kısa sürede hazırlanıp kargoya verilecektir.\n\nBizi tercih ettiğiniz için teşekkür ederiz.✨";
 
@@ -152,9 +167,8 @@ public class AdminController : BaseController
         }
 
         return RedirectToAction("OrderList");
-
-
     }
+
     // GET
     public ActionResult EditProduct(int id)
     {
@@ -259,6 +273,8 @@ public class AdminController : BaseController
 
         return RedirectToAction("OrderList");
     }
+
+
     public ActionResult DeleteProduct(int id)
     {
         if (!IsAdmin()) return RedirectToAction("Login", "Account");
@@ -282,4 +298,119 @@ public class AdminController : BaseController
         Session["IsAdmin"] = null;
         return RedirectToAction("Login", "Account");
     }
+
+
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult SiparisiOnayla(int orderId)
+    {
+        var order = db.Orders
+                      .Include(o => o.Items.Select(i => i.Product))
+                      .FirstOrDefault(o => o.Id == orderId);
+
+        if (order == null)
+        {
+            TempData["Message"] = "Sipariş bulunamadı.";
+            return RedirectToAction("Siparisler");
+        }
+
+        if (order.Status == "Sipariş Onaylandı")
+        {
+            TempData["Message"] = "Bu sipariş zaten onaylanmış.";
+            return RedirectToAction("Siparisler");
+        }
+
+        foreach (var item in order.Items)
+        {
+            if (item.Product.Stock >= item.Quantity)
+            {
+                item.Product.Stock -= item.Quantity;
+            }
+            else
+            {
+                TempData["Message"] = $"{item.Product.Name} ürününde yeterli stok yok.";
+                return RedirectToAction("OrderList");
+            }
+        }
+
+        order.Status = "Sipariş Onaylandı";
+        db.SaveChanges();
+
+        TempData["SuccessMessage"] = "Sipariş başarıyla onaylandı ve stoklar güncellendi.";
+        return RedirectToAction("OrderList");
+    }
+
+
+
+    public ActionResult OrderDetails(int id)
+    {
+        if (!IsAdmin()) return RedirectToAction("Login", "Account");
+
+        var order = db.Orders
+            .Include(o => o.Items.Select(i => i.Product))
+            .FirstOrDefault(o => o.Id == id);
+
+        if (order == null)
+        {
+            return HttpNotFound();
+        }
+
+        // Toplam fiyatı hesapla
+        order.TotalPrice = order.Items.Sum(item =>
+            (item.Price > 0 ? item.Price : item.Product.Price) * item.Quantity);
+
+        return View(order);
+    }
+
+
+
+    public ActionResult SalesReport(int? year, int? month, string search = "")
+    {
+        int selectedYear = year ?? DateTime.Now.Year;
+        int selectedMonth = month ?? DateTime.Now.Month;
+
+        // Siparişleri yıl ve aya göre filtrele
+        var orders = db.Orders
+                       .Where(o => o.OrderDate.Year == selectedYear && o.OrderDate.Month == selectedMonth);
+
+        // Sipariş kalemlerini çek
+        var orderItemsQuery = orders.SelectMany(o => o.Items);
+
+        // Eğer arama kelimesi varsa, ürün adına göre filtrele (büyük/küçük harf duyarsız)
+        if (!string.IsNullOrEmpty(search))
+        {
+            string lowerSearch = search.ToLower();
+            orderItemsQuery = orderItemsQuery.Where(oi => oi.Product.Name.ToLower().Contains(lowerSearch));
+        }
+
+        // Satış verilerini kategori bazında grupla
+        var salesData = orderItemsQuery
+            .GroupBy(oi => oi.Product.Category)
+            .Select(g => new CategorySalesViewModel
+            {
+                Category = g.Key,
+                TotalQuantity = g.Sum(oi => oi.Quantity),
+                TotalRevenue = g.Sum(oi => oi.Quantity * oi.Product.Price),
+                Products = g.GroupBy(oi => oi.Product)
+                            .Select(pg => new ProductSalesViewModel
+                            {
+                                Product = pg.Key,
+                                Quantity = pg.Sum(oi => oi.Quantity)
+                            }).ToList()
+            })
+            .ToList();
+
+        // View'a filtre değerlerini yolla
+        ViewBag.SelectedYear = selectedYear;
+        ViewBag.SelectedMonth = selectedMonth;
+        ViewBag.SearchTerm = search;
+
+        return View(salesData);
+    }
+
+
+
+
 }

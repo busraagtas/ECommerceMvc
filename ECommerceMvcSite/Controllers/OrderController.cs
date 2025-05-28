@@ -53,8 +53,6 @@ namespace ECommerceMvcSite.Controllers
         }
 
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult IptalEt(int orderId)

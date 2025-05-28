@@ -12,6 +12,14 @@
     margin: auto;
 }
 
+
+
+header nav.menu ul {
+    display: flex;
+    align-items: center;
+}
+
+
 header {
     position: absolute;
     top: 0;
@@ -40,10 +48,25 @@ header {
     color: black;
 }
 
-.logo a {
-    color: black;
-    text-decoration: none;
-}
+
+    .logo h1 a {
+        color: #e3a15f; /* krem-turuncu ton */
+        font-size: 30px; /* büyüklük */
+        font-weight: 800; /* dolgunluk */
+        font-family: 'Segoe UI', 'Poppins', sans-serif; /* daha dolgun bir yazı tipi */
+        text-decoration: none; /* altı çizilmesin */
+        transition: all 0.3s ease; /* yumuşak geçiş */
+        display: inline-block;
+    }
+
+        .logo h1 a:hover {
+            text-decoration: none; /* hover'da da altı çizilmesin */
+            transform: scale(1.05); /* hafif büyüme efekti */
+        }
+
+
+
+
 
 nav.menu ul {
     list-style: none;
@@ -177,12 +200,14 @@ button[type="submit"] {
     button[type="submit"]:hover {
         background-color: #0056b3;
     }
+
 .out-of-stock {
     color: red;
     font-weight: bold;
     display: inline-block;
     margin-top: 10px;
 }
+
 .category-dropdown:hover .dropdown-menu,
 .category-dropdown .dropdown-menu:hover {
     display: block;
@@ -191,11 +216,6 @@ button[type="submit"] {
 .user-menu-toggle {
     font-size: 24px;
 }
-
-
-
-
-
 
 
 
@@ -224,38 +244,34 @@ button[type="submit"] {
 
 
 
-        .category-item img:hover {
-            transform: scale(1.05);
-        }
+.category-item img:hover {
+    transform: scale(1.05);
+}
 
-    .category-item h4 {
-        margin-top: 10px;
-        font-size: 1.2rem;
-    }
-
-
+.category-item h4 {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
 
 
 
 
 
 
-<style >
+
 .category-item {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.category-item img {
-    max-width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-    cursor: pointer;
-}
+    .category-item img {
+        max-width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        cursor: pointer;
+    }
 
-.category-item h4 {
-    margin-top: 10px;
-}
-
-</style >
+    .category-item h4 {
+        margin-top: 10px;
+    }

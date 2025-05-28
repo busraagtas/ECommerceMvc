@@ -1,0 +1,155 @@
+﻿@model List<ECommerceMvcSite.Models.CategorySalesViewModel>
+
+<style>
+    /* Sadece bu sayfada geçerli olacak renkler */
+    .table-pelus {
+        background-color: #ffebee;
+        border-color: #e57373;
+    }
+
+    .table-ahsap {
+        background-color: #efebe9;
+        border-color: #a1887f;
+    }
+
+    .table-egitici {
+        background-color: #e0f2f1;
+        border-color: #4db6ac;
+    }
+
+    .table-tren {
+        background-color: #e8eaf6;
+        border-color: #7986cb;
+    }
+
+    .table-hamur {
+        background-color: #fff8e1;
+        border-color: #ffd54f;
+    }
+
+    .table-yapboz {
+        background-color: #e8f5e9;
+        border-color: #81c784;
+    }
+
+    .table-lego {
+        background-color: #f3e5f5;
+        border-color: #ba68c8;
+    }
+
+    .table-araba {
+        background-color: #fbe9e7;
+        border-color: #ff8a65;
+    }
+
+    /* Sayfa düzeni için flex kullanımı */
+    .container-flex {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+        margin-top: 20px;
+    }
+
+    .filter-box {
+        flex: 0 0 280px; /* sabit genişlik */
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 6px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+        .filter-box form > * {
+            margin-bottom: 15px;
+        }
+
+    .results-box {
+        flex: 1;
+        overflow-x: auto; /* tablo taşarsa yatay kaydırma */
+    }
+</style>
+
+<h2>Aylık Satış Raporu</h2>
+
+<div class="container-flex">
+    <!-- Filtre ve arama bölümü -->
+    <div class="filter-box">
+        <form method="get" action="@Url.Action("SalesReport", "Admin")">
+            <label for="yearSelect">Yıl</label>
+            <select id="yearSelect" name="year" class="form-control">
+                @for (int y = DateTime.Now.Year; y >= 2020; y--)
+                {
+                    <option value="@y" @(ViewBag.SelectedYear == y ? "selected" : "")>@y</option>
+                }
+            </select>
+
+            <label for="monthSelect">Ay</label>
+            <select id="monthSelect" name="month" class="form-control">
+                @for (int m = 1; m <= 12; m++)
+                {
+                    <option value="@m" @(ViewBag.SelectedMonth == m ? "selected" : "")>@m</option>
+                }
+            </select>
+
+            <label for="searchInput">Ürün Ara</label>
+            <input type="text" id="searchInput" name="search" class="form-control"
+                   value="@(ViewBag.SearchTerm ?? "")" placeholder="Ürün adı ara..." />
+
+            <button type="submit" class="btn btn-primary btn-block">Filtrele</button>
+        </form>
+    </div>
+
+    <!-- Satış raporu sonuçları -->
+    <div class="results-box">
+        @{
+            var categoryTableClasses = new Dictionary<string, string>
+            {
+                { "Peluş Oyuncaklar", "table-pelus" },
+                { "Ahşap Oyuncaklar", "table-ahsap" },
+                { "Eğitici Oyuncaklar", "table-egitici" },
+                { "Tren Setleri", "table-tren" },
+                { "Oyun Hamurları", "table-hamur" },
+                { "Yapbozlar", "table-yapboz" },
+                { "Legolar ve Bloklar", "table-lego" },
+                { "Oyuncak Arabalar", "table-araba" }
+            };
+        }
+
+        @if (!Model.Any())
+        {
+            <p>Bu ay için satış verisi bulunamadı.</p>
+        }
+        else
+        {
+            foreach (var categorySale in Model)
+            {
+                var tableClass = categoryTableClasses.ContainsKey(categorySale.Category.Name)
+                    ? categoryTableClasses[categorySale.Category.Name]
+                    : "";
+
+                <h3>
+                    @categorySale.Category.Name
+                    (@categorySale.TotalQuantity adet satıldı) -
+                    <small>Toplam Kazanç: @categorySale.TotalRevenue.ToString("C")</small>
+                </h3>
+
+                <table class="table table-bordered @tableClass">
+                    <thead>
+                        <tr>
+                            <th>Ürün Adı</th>
+                            <th style="text-align: right;">Satılan Adet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var productSale in categorySale.Products)
+                        {
+                            <tr>
+                                <td>@productSale.Product.Name</td>
+                                <td style="text-align: right;">@productSale.Quantity</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+    </div>
+</div>

@@ -69,14 +69,10 @@ namespace ECommerceMvcSite.Controllers
             ViewBag.Message = "Mesajınız başarıyla gönderildi!";
             return View();
         }
-
-
-
         public ActionResult BizeUlasin()
         {
             // Bize ulaşın sayfasına giden kullanıcıyı iletişim sayfasına yönlendir
             return RedirectToAction("Iletisim");
         }
-
     }
 }
