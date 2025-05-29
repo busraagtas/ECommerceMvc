@@ -4,9 +4,10 @@
     ViewBag.Title = "Siparişlerim";
     var activeTab = Request.QueryString["tab"] ?? "hazirlaniyor";
 
+    // ✅ Sipariş durumlarına göre filtreleme — düzeltildi
     var filteredOrders = activeTab switch
     {
-        "onaylanan" => Model.Where(o => o.Status == "Onaylandı" && !o.IsCancelled).ToList(),
+        "onaylanan" => Model.Where(o => o.Status == "Sipariş Onaylandı" && !o.IsCancelled).ToList(),
         "iptal" => Model.Where(o => o.IsCancelled).ToList(),
         _ => Model.Where(o => o.Status == "Hazırlanıyor" && !o.IsCancelled).ToList()
     };
@@ -52,7 +53,6 @@ else
                                 @item.Quantity adet - @item.Product.Price ₺
                             </div>
                         </li>
-
                     }
                 </ul>
                 <p><strong>Toplam Tutar:</strong> @order.Items.Sum(i => i.Quantity * i.Product.Price) ₺</p>
@@ -66,7 +66,6 @@ else
                         <button type="submit" class="btn btn-danger btn-sm">İptal Et</button>
                     }
                 }
-
             </div>
         </div>
     }

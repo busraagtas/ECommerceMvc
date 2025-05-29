@@ -166,10 +166,10 @@ namespace ECommerceMvcSite.Controllers
             }
 
             var approvedOrderIds = db.ApprovedOrders.Select(a => a.OrderId).ToList();
-
+            
             var confirmedOrders = db.Orders
                 .Where(o => o.UserEmail == userEmail
-                            && o.Status.ToLower() == "sipariş onaylandı"
+                            && o.Status.ToLower() == "Sipariş Onaylandı"
                             && !o.IsCancelled
                             && approvedOrderIds.Contains(o.Id))
                 .Include(o => o.Items.Select(i => i.Product))

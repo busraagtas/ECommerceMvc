@@ -313,13 +313,13 @@ public class AdminController : BaseController
         if (order == null)
         {
             TempData["Message"] = "Sipariş bulunamadı.";
-            return RedirectToAction("Siparisler");
+            return RedirectToAction("OrderList");
         }
 
         if (order.Status == "Sipariş Onaylandı")
         {
             TempData["Message"] = "Bu sipariş zaten onaylanmış.";
-            return RedirectToAction("Siparisler");
+            return RedirectToAction("OrderList");
         }
 
         foreach (var item in order.Items)
