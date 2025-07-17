@@ -1,0 +1,12 @@
+﻿@model List<ECommerceMvcSite.Models.Category>
+
+<ul class="dropdown-menu" style="display: block; position: absolute; background-color: white; border: 1px solid #ccc; padding: 10px; z-index: 999;">
+    @foreach (var category in Model)
+    {
+        <li style="margin-bottom: 5px;">
+            <a href="@Url.Action("ListByCategory", "Products", new { categoryId = category.Id })" style="text-decoration: none; color: black;">
+                @category.Name
+            </a>
+        </li>
+    }
+</ul>

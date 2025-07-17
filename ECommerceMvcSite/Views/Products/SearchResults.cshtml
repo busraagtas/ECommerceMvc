@@ -1,0 +1,29 @@
+﻿@model List<ECommerceMvcSite.Models.Product>
+@{
+    ViewBag.Title = "Arama Sonuçları";
+}
+
+<h2>“@ViewBag.Query” için sonuçlar:</h2>
+
+@if (!Model.Any())
+{
+    <p>Sonuç bulunamadı.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name" />
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Price ₺</p>
+                        <a href="@Url.Action("Details", "Products", new { id = item.Id })" class="btn btn-primary">Detay</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

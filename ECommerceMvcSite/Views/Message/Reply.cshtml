@@ -1,0 +1,33 @@
+﻿@model ECommerceMvcSite.Models.Message
+
+@{
+    ViewBag.Title = "Mesaja Yanıt Ver";
+}
+
+<h2>Mesaja Yanıt Ver</h2>
+
+@using (Html.BeginForm("Reply", "Message", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="RecipientEmail" value="@Model.RecipientEmail" />
+    <input type="hidden" name="UserId" value="@Model.UserId" />
+
+    <div class="form-group">
+        <label>Gönderen:</label>
+        <p>@Model.UserName (@Model.UserEmail)</p>
+    </div>
+
+    <div class="form-group">
+        <label>Mesaj:</label>
+        <p>@Model.Content</p>
+    </div>
+
+    <div class="form-group">
+        <label>Yanıtınız:</label>
+        @Html.TextArea("AdminResponse", null, new { @class = "form-control", rows = 5 })
+    </div>
+
+    <button type="submit" class="btn btn-success">Yanıtla ve Gönder</button>
+}
+

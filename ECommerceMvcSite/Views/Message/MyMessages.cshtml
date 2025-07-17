@@ -1,0 +1,42 @@
+﻿@model List<ECommerceMvcSite.Models.Message>
+
+@{
+    ViewBag.Title = "Mesajlarım";
+}
+
+<h2>Mesajlarım</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>Henüz mesajınız yok.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Gönderen</th>
+                <th>Mesaj</th>
+                <th>Tarih</th>
+                <th>Admin Cevabı</th>
+                <th>Cevap Tarihi</th>
+                <th>Detay</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var msg in Model)
+            {
+                <tr>
+                    <td>@msg.UserName (@msg.UserEmail)</td>
+                    <td>@msg.Content</td>
+                    <td>@msg.SentAt.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@(string.IsNullOrEmpty(msg.AdminResponse) ? "-" : msg.AdminResponse)</td>
+                    <td>@(msg.ResponseDate.HasValue ? msg.ResponseDate.Value.ToString("dd.MM.yyyy HH:mm") : "-")</td>
+                    <td>
+                        @Html.ActionLink("Detay", "Details", "Message", new { id = msg.Id }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,39 @@
+﻿@model ECommerceMvcSite.Models.Order
+
+<h2>Sipariş Detayı - #@Model.Id</h2>
+
+<p><strong>Kullanıcı Email:</strong> @Model.UserEmail</p>
+<p><strong>Durum:</strong> @Model.Status</p>
+<p><strong>Sipariş Tarihi:</strong> @Model.OrderDate.ToString("g")</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ürün Görseli</th>
+            <th>Ürün Adı</th>
+            <th>Adet</th>
+            <th>Birim Fiyat</th>
+            <!-- Toplam fiyat sütununu kaldırdık -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    <img src="@item.Product.ImageUrl" alt="@item.Product.Name" style="width:80px; height:auto;" />
+                </td>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+                <td>@(item.Price > 0 ? item.Price.ToString("C") : item.Product.Price.ToString("C"))</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Toplam fiyatı tablonun altına ekledik -->
+<p style="font-weight:bold; font-size:1.2em; margin-top:15px;">
+    Toplam Tutar: @Model.Items.Sum(item => (item.Price > 0 ? item.Price : item.Product.Price) * item.Quantity).ToString("C")
+</p>
+
+<a href="@Url.Action("OrderList", "Admin")" class="btn btn-secondary">Geri Dön</a>

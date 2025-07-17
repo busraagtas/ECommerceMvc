@@ -1,0 +1,34 @@
+﻿@model ECommerceMvcSite.Models.Message
+
+@{
+    ViewBag.Title = "Mesaj Detayı";
+}
+
+<h2>Mesaj Detayı</h2>
+
+<p><strong>Gönderen:</strong> @Model.UserName (@Model.UserEmail)</p>
+<p><strong>Mesaj:</strong> @Model.Content</p>
+<p><strong>Tarih:</strong> @Model.SentAt.ToString("dd.MM.yyyy HH:mm")</p>
+
+@if (string.IsNullOrEmpty(Model.AdminResponse))
+{
+    <form method="post" action="@Url.Action("Reply", "Message")">
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.RecipientEmail)
+
+        <div class="form-group">
+            <label for="AdminResponse">Cevap</label>
+            <textarea name="AdminResponse" class="form-control" rows="5" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cevabı Gönder</button>
+    </form>
+}
+else
+{
+    <p><strong>Admin Cevabı:</strong> @Model.AdminResponse</p>
+    <p><strong>Cevap Tarihi:</strong> @(Model.ResponseDate.HasValue ? Model.ResponseDate.Value.ToString("dd.MM.yyyy HH:mm") : "-")</p>
+
+}
